@@ -10,13 +10,16 @@ int main(int argc, char **argv)
 {
 	using namespace std;
 
+	sf::RenderWindow window(sf::VideoMode(800, 600), "Mario Sokoban");
+
 	sf::Texture texture;
 	if (!texture.loadFromFile("src/img/caisse.jpg"))
 	{
-	
-	} 
+		cout << "L'image n'a pas chargée";
+	}
 
-	sf::Window window(sf::VideoMode(800, 600), "Mario Sokoban");
+	sf::Sprite sprite;
+	sprite.setTexture(texture);
 
 	// on fait tourner le programme jusqu'à ce que la fenêtre soit fermée
 	while (window.isOpen())
@@ -30,6 +33,12 @@ int main(int argc, char **argv)
 			if (event.type == sf::Event::Closed)
 				window.close();
 		}
+
+		window.clear(sf::Color::Black);
+
+		window.draw(sprite);
+
+		window.display();
 	}
 
 	return 0;
