@@ -3,43 +3,80 @@
 #include <stdio.h>
 #include <iostream>
 
-//#include "constantes.h"
-//#include "jeu.h"
+#include "constantes.h"
+#include "jeu.h"
 
 int main(int argc, char **argv)
 {
 	using namespace std;
 
-	sf::RenderWindow window(sf::VideoMode(800, 600), "Mario Sokoban");
+	sf::RenderWindow window(sf::VideoMode(LARGEUR_FENETRE, HAUTEUR_FENETRE, 32), "Mario Sokoban");
 
 	sf::Texture texture;
-	if (!texture.loadFromFile("src/img/caisse.jpg"))
+	if (!texture.loadFromFile("src/img/caisse.jpg")) // permet de charger la texture
 	{
-		cout << "L'image n'a pas chargée";
+		cout << "La texture n'a pas chargée";
 	}
 
+	sf::Texture menu;
+	if (!menu.loadFromFile("src/img/menu.jpg"))
+	{
+		cout << "La texture n'a pas chargée";
+	}
+	
 	sf::Sprite sprite;
-	sprite.setTexture(texture);
+	sprite.setTexture(menu);
+
+
+	sprite.setPosition(sf::Vector2f(0.f, 0.f)); // modifie la position absolue
+
+	window.clear(sf::Color::Black);
+
+	window.draw(sprite); // on dessine le sprite
+
+	window.display();
+
 
 	// on fait tourner le programme jusqu'à ce que la fenêtre soit fermée
 	while (window.isOpen())
 	{
-
+		
 		// on inspecte tous les évènements de la fenêtre qui ont été émis depuis la précédente itération
 		sf::Event event;
 		while (window.pollEvent(event))
 		{
+			if (event.type == sf::Event::Closed)
+			{
+				window.close();
+			}
+
+			if (event.type == sf::Event::KeyPressed)
+			{
+				
+			
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+				{
+					window.close();
+				}
+
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad1))
+				{
+					//jouer(ecran);
+				}
+
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad2))
+				{
+					//editeur(ecran);
+				}
+
+			}
+
+		}
+
 			// évènement "fermeture demandée" : on ferme la fenêtre
 			if (event.type == sf::Event::Closed)
 				window.close();
 		}
 
-		window.clear(sf::Color::Black);
-
-		window.draw(sprite);
-
-		window.display();
-	}
-
-	return 0;
+		return 0;
 }
