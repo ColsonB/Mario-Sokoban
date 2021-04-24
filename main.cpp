@@ -23,24 +23,16 @@ int main(int argc, char **argv)
 	{
 		cout << "La texture n'a pas chargée";
 	}
-	
+
 	sf::Sprite sprite;
 	sprite.setTexture(menu);
 
-
 	sprite.setPosition(sf::Vector2f(0.f, 0.f)); // modifie la position absolue
-
-	window.clear(sf::Color::Black);
-
-	window.draw(sprite); // on dessine le sprite
-
-	window.display();
-
 
 	// on fait tourner le programme jusqu'à ce que la fenêtre soit fermée
 	while (window.isOpen())
 	{
-		
+
 		// on inspecte tous les évènements de la fenêtre qui ont été émis depuis la précédente itération
 		sf::Event event;
 		while (window.pollEvent(event))
@@ -50,10 +42,10 @@ int main(int argc, char **argv)
 				window.close();
 			}
 
-			if (event.type == sf::Event::KeyPressed)
+			if (event.key.code == sf::Event::KeyPressed)
 			{
-				
-			
+
+
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 				{
 					window.close();
@@ -70,13 +62,19 @@ int main(int argc, char **argv)
 				}
 
 			}
-
-		}
-
+		
 			// évènement "fermeture demandée" : on ferme la fenêtre
 			if (event.type == sf::Event::Closed)
 				window.close();
+
 		}
+		
+		window.clear(sf::Color::Black);
+
+		window.draw(sprite); // on dessine le sprite
+
+		window.display();
+	}
 
 		return 0;
 }
