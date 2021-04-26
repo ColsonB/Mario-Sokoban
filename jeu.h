@@ -44,19 +44,19 @@ void jouer(sf::Window* ecran)
 		cout << "La texture n'a pas chargée";
 	}
 
-	sf::Texture marioActuel[GAUCHE];
+	sf::Texture mario[GAUCHE];
 	if (!mario[GAUCHE].loadFromFile("src/img/mario_gauche.jpg"))
 	{
 		cout << "La texture n'a pas chargée";
 	}
 
-	sf::Texture marioActuel[HAUT];
+	sf::Texture mario[HAUT];
 	if (!mario[HAUT].loadFromFile("src/img/mario_haut.jpg"))
 	{
 		cout << "La texture n'a pas chargée";
 	}
 
-	sf::Texture marioActuel[DROITE];
+	sf::Texture mario[DROITE];
 	if (!mario[DROITE].loadFromFile("src/img/mario_droite.jpg"))
 	{
 		cout << "La texture n'a pas chargée";
