@@ -38,7 +38,7 @@ void jouer(sf::Window* ecran)
 		cout << "La texture n'a pas chargée";
 	}
 
-	sf::Texture marioActuel[BAS];
+	sf::Texture mario[BAS];
 	if (!mario[BAS].loadFromFile("src/img/mario_bas.jpg"))
 	{
 		cout << "La texture n'a pas chargée";
