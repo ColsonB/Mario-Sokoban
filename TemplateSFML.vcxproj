@@ -130,11 +130,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="editeur.cpp" />
+    <ClCompile Include="jeu.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="fichier.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="constantes.h" />
+    <ClInclude Include="editeur.h" />
+    <ClInclude Include="fichier.h" />
     <ClInclude Include="jeu.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
