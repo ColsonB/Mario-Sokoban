@@ -5,8 +5,8 @@ void jouer(sf::Window* ecran)
 
 	using namespace std;
 
-	sf::Window *mario[4] = { NULL };
-	sf::Window *mur = NULL, *caisse = NULL, *caisseOK = NULL, *objectif = NULL, *marioActuel = NULL;
+	sf::Window* mario[4] = { NULL };
+	sf::Window* mur = NULL, * caisse = NULL, * caisseOK = NULL, * objectif = NULL, * marioActuel = NULL;
 	sf::Transformable position, positionJoueur;
 	sf::Event event;
 	sf::RenderWindow(marioActuel, NULL, ecran, &position);
@@ -19,7 +19,7 @@ void jouer(sf::Window* ecran)
 	{
 		cout << "La texture n'a pas chargée";
 	}
-	
+
 	sf::Texture caisse;
 	if (!caisse.loadFromFile("src/img/caisse.jpg"))
 	{
@@ -60,6 +60,24 @@ void jouer(sf::Window* ecran)
 	if (!mario[DROITE].loadFromFile("src/img/mario_droite.jpg"))
 	{
 		cout << "La texture n'a pas chargée";
+	}
+
+	if (!chargerNiveau(carte))
+	{
+		exit(EXIT_FAILURE);
+	}
+
+	for (i = 0; i < NB_BLOCS_LARGEUR; i++)
+	{
+		for (j = 0; j < NB_BLOCS_HAUTEUR; j++)
+		{
+			if (carte[i][j]) == MARIO)
+			{
+				positionJoueur.x = i;
+				positionJoueur.y = j;
+				carte[i][j] = VIDE;
+			}
+		}
 	}
 
 
