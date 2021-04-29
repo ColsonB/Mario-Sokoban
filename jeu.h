@@ -1,63 +1,63 @@
+#include <SFML/Graphics.hpp>
 #include <iostream>
 
-void jouer(sf::Window* ecran)
+void jouer(sf::RenderWindow* ecran)
 {
 
 	using namespace std;
 
-	sf::Window* mario[4] = { NULL };
-	sf::Window* mur = NULL, * caisse = NULL, * caisseOK = NULL, * objectif = NULL, * marioActuel = NULL;
+	sf::Sprite* mario[4] = { NULL };
+	sf::Sprite* mur = NULL, * caisse = NULL, * caisseOK = NULL, * objectif = NULL, * marioActuel = NULL;
 	sf::Transformable position, positionJoueur;
 	sf::Event event;
-	sf::RenderWindow(marioActuel, NULL, ecran, &position);
 
 	int continuer = 1, objectifsRestants = 0, i = 0, j = 0;
 	int carte[NB_BLOCS_LARGEUR][NB_BLOCS_HAUTEUR] = { 0 };
 
 	sf::Texture mur;
-	if (!mur.loadFromFile("src/img/mur.jpg"))
+	if (!texture.loadFromFile("src/img/mur.jpg"))
 	{
 		cout << "La texture n'a pas chargée";
 	}
 
 	sf::Texture caisse;
-	if (!caisse.loadFromFile("src/img/caisse.jpg"))
+	if (!texture.loadFromFile("src/img/caisse.jpg"))
 	{
 		cout << "La texture n'a pas chargée";
 	}
 
 	sf::Texture caisseOK;
-	if (!caisseOK.loadFromFile("src/img/caisseOK.jpg"))
+	if (!texture.loadFromFile("src/img/caisseOK.jpg"))
 	{
 		cout << "La texture n'a pas chargée";
 	}
-
+	
 	sf::Texture objectif;
-	if (!objectif.loadFromFile("src/img/objectif.jpg"))
+	if (texture.loadFromFile("src/img/objectif.jpg"))
 	{
 		cout << "La texture n'a pas chargée";
 	}
 
 	sf::Texture mario[BAS];
-	if (!mario[BAS].loadFromFile("src/img/mario_bas.jpg"))
+	if (!texture.loadFromFile("src/img/mario_bas.jpg"))
 	{
 		cout << "La texture n'a pas chargée";
 	}
 
 	sf::Texture mario[GAUCHE];
-	if (!mario[GAUCHE].loadFromFile("src/img/mario_gauche.jpg"))
+	if (!texture.loadFromFile("src/img/mario_gauche.jpg"))
 	{
 		cout << "La texture n'a pas chargée";
 	}
 
 	sf::Texture mario[HAUT];
-	if (!mario[HAUT].loadFromFile("src/img/mario_haut.jpg"))
+	if (!texture.loadFromFile("src/img/mario_haut.jpg"))
 	{
 		cout << "La texture n'a pas chargée";
 	}
 
 	sf::Texture mario[DROITE];
-	if (!mario[DROITE].loadFromFile("src/img/mario_droite.jpg"))
+	if (!texture.loadFromFile("src/img/mario_droite.jpg"))
 	{
 		cout << "La texture n'a pas chargée";
 	}
@@ -81,10 +81,9 @@ void jouer(sf::Window* ecran)
 	}
 
 	sf::Event event;
+
 	while (window.pollEvent(event))
 	{
-		if (event.type == sf::Event::Closed)
-			window.close();
 
 		if (event.key.code == sf::Event::KeyPressed)
 		{
@@ -117,10 +116,6 @@ void jouer(sf::Window* ecran)
 			}
 
 		}
-
-		// évènement "fermeture demandée" : on ferme la fenêtre
-		if (event.type == sf::Event::Closed)
-			window.close();
 	}
 
 }

@@ -19,7 +19,7 @@ int main(int argc, char **argv)
 	}
 
 	sf::Texture menu;
-	if (!menu.loadFromFile("src/img/menu.jpg"))
+	if (!texture.loadFromFile("src/img/menu.jpg"))
 	{
 		cout << "La texture n'a pas chargée";
 	}
