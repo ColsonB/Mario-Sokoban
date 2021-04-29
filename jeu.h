@@ -80,6 +80,48 @@ void jouer(sf::Window* ecran)
 		}
 	}
 
+	sf::Event event;
+	while (window.pollEvent(event))
+	{
+		if (event.type == sf::Event::Closed)
+			window.close();
+
+		if (event.key.code == sf::Event::KeyPressed)
+		{
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+				window.close();
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+			{
+				marioActuel = mario[HAUT];
+				deplacerJoueur(carte, &positionJoueur, HAUT);
+			}
+			
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+			{
+				marioActuel = mario[BAS];
+				deplacerJoueur(carte, &positionJoueur, BAS);
+			}
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+			{
+				marioActuel = mario[DROITE];
+				deplacerJoueur(carte, &positionJoueur, DROITE);
+			}
+			
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+			{
+				marioActuel = mario[GAUCHE];
+				deplacerJoueur(carte, &positionJoueur, GAUCHE);
+			}
+
+		}
+
+		// évènement "fermeture demandée" : on ferme la fenêtre
+		if (event.type == sf::Event::Closed)
+			window.close();
+	}
 
 }
 

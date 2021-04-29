@@ -38,28 +38,20 @@ int main(int argc, char **argv)
 		while (window.pollEvent(event))
 		{
 			if (event.type == sf::Event::Closed)
-			{
 				window.close();
-			}
 
 			if (event.key.code == sf::Event::KeyPressed)
 			{
 
-
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-				{
 					window.close();
-				}
 
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad1))
-				{
 					//jouer(ecran);
-				}
+			
 
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad2))
-				{
 					//editeur(ecran);
-				}
 
 			}
 		
