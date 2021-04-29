@@ -141,6 +141,9 @@
     <ClInclude Include="fichier.h" />
     <ClInclude Include="jeu.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="niveau.lvl" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
