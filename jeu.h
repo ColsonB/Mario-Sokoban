@@ -6,7 +6,7 @@ void jouer(sf::RenderWindow* ecran)
 
 	using namespace std;
 
-	sf::Sprite* mario[4] = { NULL };
+	sf::Sprite* mario[4] = { NULL }; // 4 surfaces pour 4 directions de Mario
 	sf::Sprite* mur = NULL, * caisse = NULL, * caisseOK = NULL, * objectif = NULL, * marioActuel = NULL;
 	sf::Transformable position, positionJoueur;
 	sf::Event event;
@@ -16,6 +16,7 @@ void jouer(sf::RenderWindow* ecran)
 	int continuer = 1, objectifsRestants = 0, i = 0, j = 0;
 	int carte[NB_BLOCS_LARGEUR][NB_BLOCS_HAUTEUR] = { 0 };
 
+	// Chargement des sprites (décors, personnage...)
 	sf::Texture mur;
 	if (!texture.loadFromFile("src/img/mur.jpg"))
 	{
@@ -64,16 +65,18 @@ void jouer(sf::RenderWindow* ecran)
 		cout << "La texture n'a pas chargée";
 	}
 
+	// Chargement du niveau
 	if (!chargerNiveau(carte))
 	{
-		exit(EXIT_FAILURE);
+		exit(EXIT_FAILURE); // On arrête le jeu si on n'a pas pu charger le niveau
 	}
 
+	// Recherche de la position de Mario au départ
 	for (i = 0; i < NB_BLOCS_LARGEUR; i++)
 	{
 		for (j = 0; j < NB_BLOCS_HAUTEUR; j++)
 		{
-			if (carte[i][j]) == MARIO)
+			if (carte[i][j]) == MARIO) // Si Mario se trouve à cette position
 			{
 				positionJoueur.x = i;
 				positionJoueur.y = j;
@@ -81,6 +84,8 @@ void jouer(sf::RenderWindow* ecran)
 			}
 		}
 	}
+
+	sf::Event::KeyPressed(100, 100); // Activation de la répétition des touches
 
 	sf::Event event;
 
@@ -120,7 +125,8 @@ void jouer(sf::RenderWindow* ecran)
 		}
 	}
 
-	sf::
+	// Effacement de l'écran
+	window.clear(ecran, NULL, /*SDL_MapRGB(ecran->format, 255, 255, 255)*/);
 
 }
 
