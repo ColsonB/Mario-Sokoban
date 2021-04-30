@@ -11,6 +11,8 @@ void jouer(sf::RenderWindow* ecran)
 	sf::Transformable position, positionJoueur;
 	sf::Event event;
 
+	sf::RenderWindow(marioActuel, NULL, ecran, &position);
+
 	int continuer = 1, objectifsRestants = 0, i = 0, j = 0;
 	int carte[NB_BLOCS_LARGEUR][NB_BLOCS_HAUTEUR] = { 0 };
 
@@ -117,6 +119,8 @@ void jouer(sf::RenderWindow* ecran)
 
 		}
 	}
+
+	sf::
 
 }
 
