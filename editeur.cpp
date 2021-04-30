@@ -20,7 +20,7 @@ void editeur(sf::RenderWindow* window){
     texture.loadFromFile("objectif.png");
     texture.loadFromFile("mario_bas.gif");
 
-    //A changer !
+    //A changer maintenant
     if (!chargerNiveau(carte)) {
         exit(EXIT_FAILURE);
     }
