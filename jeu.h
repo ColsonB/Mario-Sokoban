@@ -11,56 +11,56 @@ void jouer(sf::RenderWindow* ecran)
 	sf::Transformable position, positionJoueur;
 	sf::Event event;
 
-	sf::RenderWindow(marioActuel, NULL, ecran, &position);
+	sf::RenderWindow*(marioActuel, NULL, ecran, &position);
 
 	int continuer = 1, objectifsRestants = 0, i = 0, j = 0;
 	int carte[NB_BLOCS_LARGEUR][NB_BLOCS_HAUTEUR] = { 0 };
 
 	// Chargement des sprites (décors, personnage...)
-	sf::Texture mur;
-	if (!texture.loadFromFile("src/img/mur.jpg"))
+	sf::Texture texture_mur;
+	if (!texture_mur.loadFromFile("src/img/mur.jpg"))
 	{
 		cout << "La texture n'a pas chargée";
 	}
 
-	sf::Texture caisse;
-	if (!texture.loadFromFile("src/img/caisse.jpg"))
+	sf::Texture texture_caisse;
+	if (!texture_caisse.loadFromFile("src/img/caisse.jpg"))
 	{
 		cout << "La texture n'a pas chargée";
 	}
 
-	sf::Texture caisseOK;
-	if (!texture.loadFromFile("src/img/caisseOK.jpg"))
+	sf::Texture texture_caisseOK;
+	if (!texture_caisseOK.loadFromFile("src/img/caisseOK.jpg"))
 	{
 		cout << "La texture n'a pas chargée";
 	}
 	
-	sf::Texture objectif;
-	if (texture.loadFromFile("src/img/objectif.jpg"))
+	sf::Texture texture_objectif;
+	if (!texture_objectif.loadFromFile("src/img/objectif.jpg"))
 	{
 		cout << "La texture n'a pas chargée";
 	}
 
-	sf::Texture mario[BAS];
-	if (!texture.loadFromFile("src/img/mario_bas.jpg"))
+	sf::Texture texture_mario[BAS];
+	if (!texture_mario[BAS].loadFromFile("src/img/mario_bas.jpg"))
 	{
 		cout << "La texture n'a pas chargée";
 	}
 
-	sf::Texture mario[GAUCHE];
-	if (!texture.loadFromFile("src/img/mario_gauche.jpg"))
+	sf::Texture texture_mario[GAUCHE];
+	if (!texture_mario[GAUCHE].loadFromFile("src/img/mario_gauche.jpg"))
 	{
 		cout << "La texture n'a pas chargée";
 	}
 
-	sf::Texture mario[HAUT];
-	if (!texture.loadFromFile("src/img/mario_haut.jpg"))
+	sf::Texture texture_mario[HAUT];
+	if (!texture_mario[HAUT].loadFromFile("src/img/mario_haut.jpg"))
 	{
 		cout << "La texture n'a pas chargée";
 	}
 
 	sf::Texture mario[DROITE];
-	if (!texture.loadFromFile("src/img/mario_droite.jpg"))
+	if (!texture_mario[DROITE].loadFromFile("src/img/mario_droite.jpg"))
 	{
 		cout << "La texture n'a pas chargée";
 	}
