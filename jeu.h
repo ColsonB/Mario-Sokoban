@@ -8,12 +8,12 @@ void jouer(sf::RenderWindow* ecran)
 
 	using namespace std;
 
-	sf::Sprite* mario[4] = { NULL }; // 4 surfaces pour 4 directions de Mario
-	sf::Sprite* mur = NULL, *caisse = NULL, *caisseOK = NULL, *objectif = NULL, *marioActuel = NULL;
+	sf::Texture *mario[4] = { NULL }; // 4 surfaces pour 4 directions de Mario
+	sf::Texture *mur = NULL, *caisse = NULL, *caisseOK = NULL, *objectif = NULL, *marioActuel = NULL;
 	sf::Transformable position, positionJoueur;
 	sf::Event event;
 
-	sf::RenderWindow* (marioActuel, NULL, ecran, &position);
+	sf::RenderTexture(marioActuel, NULL, ecran, &position);
 
 	int continuer = 1, objectifsRestants = 0, i = 0, j = 0;
 	int carte[NB_BLOCS_LARGEUR][NB_BLOCS_HAUTEUR] = { 0 };
@@ -128,7 +128,7 @@ void jouer(sf::RenderWindow* ecran)
 	}
 
 	// Effacement de l'écran
-	window.clear(ecran, NULL, /*SDL_MapRGB(ecran->format, 255, 255, 255)*/);
+	window.clear(ecran, NULL);
 
 	// Placement des objets à l'écran
 	objectifsRestants = 0;
@@ -143,16 +143,16 @@ void jouer(sf::RenderWindow* ecran)
 			switch(carte[i][j])
 			{
 			case MUR:
-				sf::RenderWindow*(mur, NULL, ecran, &position);
+				sf::RenderTexture(mur, NULL, ecran, &position);
 				break;
 			case CAISSE:
-				sf::RenderWindow*(caisse, NULL, ecran, &position);
+				sf::RenderTexture(caisse, NULL, ecran, &position);
 				break;
 			case CAISSE_OK:
-				sf::RenderWindow*(caisseOK, NULL, ecran, &position);
+				sf::RenderTexture(caisseOK, NULL, ecran, &position);
 				break;
 			case OBJECTIF:
-				sf::RenderWindow*(objectif, NULL, ecran, &position);
+				sf::RenderTexture(objectif, NULL, ecran, &position);
 				objectifsRestants = 1;
 				break;
 			}
@@ -166,5 +166,5 @@ void jouer(sf::RenderWindow* ecran)
 	// On place le joueur à la bonne position
 	position.x = positionJoueur.x * TAILLE_BLOC;
 	position.y = positionJoueur.y * TAILLE_BLOC;
-	sf::RenderWindow*(marioActuel, NULL, ecran, &position);
+	sf::RenderTexture(marioActuel, NULL, ecran, &position);
 }
