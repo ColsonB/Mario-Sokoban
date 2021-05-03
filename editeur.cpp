@@ -1,14 +1,14 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <SFML/Graphics.hpp>
 #include <stdlib.h>
 #include <stdio.h>
 #include <iostream>
+
 #include "constantes.h"
-#include "fichier.cpp"
+#include "fichier.h"
 
 void editeur(sf::RenderWindow* window){
     sf::Sprite* mur = NULL, * caisse = NULL, * objectif = NULL, * mario = NULL;
-    //sf:: position;
-    sf::Event event;
 
     int continuer = 1, clicGaucheEnCours = 0, clicDroitEnCours = 0;
     sf::Sprite* objetActuel = NULL;
@@ -18,16 +18,16 @@ void editeur(sf::RenderWindow* window){
 
     // Chargement des textures des objets
     sf::Texture textureMur;
-    textureMur.loadFromFile("mur.jpg");
+    textureMur.loadFromFile("src/img/mur.jpg");
     mur = new sf::Sprite(textureMur);
     sf::Texture textureCaisse;
-    textureCaisse.loadFromFile("caisse.jpg");
+    textureCaisse.loadFromFile("src/img/caisse.jpg");
     caisse = new sf::Sprite(textureCaisse);
     sf::Texture textureObjectif;
-    textureObjectif.loadFromFile("objectif.png");
+    textureObjectif.loadFromFile("src/img/objectif.png");
     objectif = new sf::Sprite(textureObjectif);
     sf::Texture textureMario;
-    textureMario.loadFromFile("mario_bas.gif");
+    textureMario.loadFromFile("src/img/mario_bas.gif");
     mario = new sf::Sprite(textureMario);
 
     //Changement objet
