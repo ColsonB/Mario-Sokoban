@@ -8,6 +8,9 @@
 #include "fichier.h"
 
 void editeur(sf::RenderWindow* window){
+    window->clear(sf::Color::Black);
+    window->display();
+
     sf::Sprite* mur = NULL, * caisse = NULL, * objectif = NULL, * mario = NULL;
 
     int continuer = 1, clicGaucheEnCours = 0, clicDroitEnCours = 0;
@@ -30,31 +33,35 @@ void editeur(sf::RenderWindow* window){
     textureMario.loadFromFile("src/img/mario_bas.gif");
     mario = new sf::Sprite(textureMario);
 
-    //Changement objet
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) {
-        objetSelect = MUR;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2)) {
-        objetSelect = CAISSE;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num3)) {
-        objetSelect = OBJECTIF;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num4)) {
-        objetSelect = MARIO;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num0)) {
-        objetSelect = VIDE;
-    }
+    sf::Event event;
+    while (window->pollEvent(event)) {
+        //Changement objet
+        if (event.type == sf::Event::KeyPressed) {
+            if (event.key.code == sf::Keyboard::Num1) {
+                objetSelect = MUR;
+            }
+            if (event.key.code == sf::Keyboard::Num2) {
+                objetSelect = CAISSE;
+            }
+            if (event.key.code == sf::Keyboard::Num3) {
+                objetSelect = OBJECTIF;
+            }
+            if (event.key.code == sf::Keyboard::Num4) {
+                objetSelect = MARIO;
+            }
+            if (event.key.code == sf::Keyboard::Num0) {
+                objetSelect = VIDE;
+            }
+        }
 
-    //Placement objet
-    sf::Vector2i mousePosition = sf::Mouse::getPosition(*window);
-    int x = mousePosition.x / TAILLE_BLOC;
-    int y = mousePosition.y / TAILLE_BLOC;
-    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-        carte[x][y] = objetSelect;
+        //Placement objet
+        sf::Vector2i mousePosition = sf::Mouse::getPosition(*window);
+        int x = mousePosition.x / TAILLE_BLOC;
+        int y = mousePosition.y / TAILLE_BLOC;
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+            carte[x][y] = objetSelect;
+        }
     }
-
     //Sauvegarde et chargement du niveau
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
         continuer = 0;
