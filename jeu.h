@@ -24,29 +24,51 @@ void jouer(sf::RenderWindow* window)
 
 	// Chargement des sprites (décors, personnage...)
 	sf::Texture texturemur;
-	texturemur.loadFromFile("src/img/mur.jpg");
-	mur = new sf::Sprite(texturemur);
+	if(!texturemur.loadFromFile("src/img/mur.jpg"));
+	{
+		cout << "La texture n'a pas chargée";
+	}
 	sf::Texture texturecaisse;
-	texturecaisse.loadFromFile("src/img/caisse.jpg");
-	caisse = new sf::Sprite(texturecaisse);
+	if(!texturecaisse.loadFromFile("src/img/caisse.jpg"));
+	{
+		cout << "La texture n'a pas chargée";
+	}
 	sf::Texture texturecaisseOK;
-	texturecaisseOK.loadFromFile("src/img/caisseOK.jpg");
-	caisseOK = new sf::Sprite(texturecaisseOK);
+	if(!texturecaisseOK.loadFromFile("src/img/caisseOK.jpg"));
+	{
+		cout << "La texture n'a pas chargée";
+	}
+	
 	sf::Texture textureobjectif;
-	textureobjectif.loadFromFile("src/img/objectif.jpg");
-	objectif = new sf::Sprite(textureobjectif);
+	if(!textureobjectif.loadFromFile("src/img/objectif.jpg"));
+	{
+		cout << "La texture n'a pas chargée";
+	}
+
 	sf::Texture texturemario[BAS];
-	texturemario[BAS].loadFromFile("src/img/mario_bas.jpg");
-	mario[BAS] = new sf::Sprite(texturemario[BAS]);
+	if(!texturemario[BAS].loadFromFile("src/img/mario_bas.jpg"));
+	{
+		cout << "La texture n'a pas chargée";
+	}
+	
 	sf::Texture texturemario[GAUCHE];
-	texturemario[GAUCHE].loadFromFile("src/img/mario_gauche.jpg");
-	mario[GAUCHE] = new sf::Sprite(texturemario[GAUCHE]);
+	if(!texturemario[GAUCHE].loadFromFile("src/img/mario_gauche.jpg"));
+	{
+		cout << "La texture n'a pas chargée";
+	}
+
 	sf::Texture texturemario[HAUT];
-	texturemario[HAUT].loadFromFile("src/img/mario_haut.jpg");
-	mario[HAUT] = new sf::Sprite(texturemario[HAUT]);
+	if(!texturemario[HAUT].loadFromFile("src/img/mario_haut.jpg"));
+	{
+		cout << "La texture n'a pas chargée";
+	}
+	
 	sf::Texture texturemario[DROITE];
-	texturemario[DROITE].loadFromFile("src/img/mario_droite.jpg");
-	mario[DROITE] = new sf::Sprite(texturemario[DROITE]);
+	if(!texturemario[DROITE].loadFromFile("src/img/mario_droite.jpg"));
+	{
+		cout << "La texture n'a pas chargée";
+	}
+
 	
 
 	// Chargement du niveau
