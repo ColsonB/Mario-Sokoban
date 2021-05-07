@@ -7,69 +7,89 @@
 #include "constantes.h"
 #include "fichier.h"
 
-void editeur(sf::RenderWindow* window){
-    window->clear(sf::Color::Black);
-    window->display();
+void editeur(sf::RenderWindow* window) {
 
-    sf::Sprite* mur = NULL, * caisse = NULL, * objectif = NULL, * mario = NULL;
+    sf::Sprite vide, mur, caisse, caisseOk, objectif, mario;
+    sf::Sprite *allAsset[6] = { &vide, &mur, &caisse, &caisseOk, &objectif, &mario };
 
-    int continuer = 1, clicGaucheEnCours = 0, clicDroitEnCours = 0;
-    sf::Sprite* objetActuel = NULL;
     int objetSelect = VIDE;
     int i = 0, j = 0;
     int carte[NB_BLOCS_LARGEUR][NB_BLOCS_HAUTEUR] = { 0 };
 
     // Chargement des textures des objets
+    sf::Texture textureVide;
+    textureVide.loadFromFile("src/img/vide.jpg");
+    vide.setTexture(textureVide);
+
     sf::Texture textureMur;
     textureMur.loadFromFile("src/img/mur.jpg");
-    mur = new sf::Sprite(textureMur);
+    mur.setTexture(textureMur);
+
     sf::Texture textureCaisse;
     textureCaisse.loadFromFile("src/img/caisse.jpg");
-    caisse = new sf::Sprite(textureCaisse);
+    caisse.setTexture(textureCaisse);
+
+    sf::Texture textureCaisseOk;
+    textureCaisseOk.loadFromFile("src/img/caisse_ok.jpg");
+    caisseOk.setTexture(textureCaisseOk);
+
     sf::Texture textureObjectif;
     textureObjectif.loadFromFile("src/img/objectif.png");
-    objectif = new sf::Sprite(textureObjectif);
+    objectif.setTexture(textureObjectif);
+
     sf::Texture textureMario;
     textureMario.loadFromFile("src/img/mario_bas.gif");
-    mario = new sf::Sprite(textureMario);
+    mario.setTexture(textureMario);
 
     sf::Event event;
-    while (window->pollEvent(event)) {
-        //Changement objet
-        if (event.type == sf::Event::KeyPressed) {
-            if (event.key.code == sf::Keyboard::Num1) {
-                objetSelect = MUR;
+    while (window->isOpen()) {
+        while (window->pollEvent(event)) {
+            if (event.type == sf::Event::Closed) {
+                window->close();
             }
-            if (event.key.code == sf::Keyboard::Num2) {
-                objetSelect = CAISSE;
+            if (event.type == sf::Event::KeyPressed) {
+                if (event.key.code == sf::Keyboard::Escape) {
+                    window->close();
+                }
+                //Changement objet
+                if (event.key.code == sf::Keyboard::Num1) {
+                    objetSelect = MUR;
+                }
+                if (event.key.code == sf::Keyboard::Num2) {
+                    objetSelect = CAISSE;
+                }
+                if (event.key.code == sf::Keyboard::Num3) {
+                    objetSelect = CAISSE_OK;
+                }
+                if (event.key.code == sf::Keyboard::Num4) {
+                    objetSelect = OBJECTIF;
+                }
+                if (event.key.code == sf::Keyboard::Num5) {
+                    objetSelect = MARIO;
+                }
+                if (event.key.code == sf::Keyboard::Num0) {
+                    objetSelect = VIDE;
+                }
+                //Sauvegarde et chargement du niveau
+                if (event.key.code == sf::Keyboard::S) {
+                    sauvegarderNiveau(carte);
+                }
+                if (event.key.code == sf::Keyboard::C) {
+                    chargerNiveau(carte);
+                }
             }
-            if (event.key.code == sf::Keyboard::Num3) {
-                objetSelect = OBJECTIF;
-            }
-            if (event.key.code == sf::Keyboard::Num4) {
-                objetSelect = MARIO;
-            }
-            if (event.key.code == sf::Keyboard::Num0) {
-                objetSelect = VIDE;
+            //Placement objet
+            sf::Vector2i mousePosition = sf::Mouse::getPosition(*window);
+            int x = mousePosition.x / TAILLE_BLOC;
+            int y = mousePosition.y / TAILLE_BLOC;
+            if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+                carte[x][y] = objetSelect;
+                sauvegarderNiveau(carte);
             }
         }
-
-        //Placement objet
-        sf::Vector2i mousePosition = sf::Mouse::getPosition(*window);
-        int x = mousePosition.x / TAILLE_BLOC;
-        int y = mousePosition.y / TAILLE_BLOC;
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-            carte[x][y] = objetSelect;
-        }
-    }
-    //Sauvegarde et chargement du niveau
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-        continuer = 0;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-        sauvegarderNiveau(carte);
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::C)) {
+        window->clear(sf::Color::Black);
+        window->draw(*allAsset[objetSelect]);
+        window->display();
         chargerNiveau(carte);
     }
 }
