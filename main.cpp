@@ -20,14 +20,14 @@ int main(int argc, char **argv) {
 		cout << "La texture n'a pas chargée";
 	}
 
-	sf::Texture texture_menu;
-	if (!texture_menu.loadFromFile("src/img/menu.jpg"))
+	sf::Texture texturemenu;
+	if (!texturemenu.loadFromFile("src/img/menu.jpg"))
 	{
 		cout << "La texture n'a pas chargée";
 	}
 
 	sf::Sprite sprite;
-	sprite.setTexture(texture_menu);
+	sprite.setTexture(texturemenu);
 
 	sprite.setPosition(sf::Vector2f(0.f, 0.f)); // modifie la position absolue
 
@@ -46,7 +46,7 @@ int main(int argc, char **argv) {
 					window.close();
 				}
 				if (event.key.code == sf::Keyboard::Num1) {
-					//jouer(ecran);
+					//jouer(&window);
 				}
 				if (event.key.code == sf::Keyboard::Num2) {
 					editeur(&window);

@@ -1,71 +1,75 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <SFML/Graphics.hpp>
+#include <stdlib.h>
+#include <stdio.h>
 #include <iostream>
 
 #include "constantes.h"
 
-void jouer(sf::RenderWindow* ecran)
+void jouer(sf::RenderWindow* window)
 {
 
 	using namespace std;
 
-	sf::Texture *mario[4] = { NULL }; // 4 surfaces pour 4 directions de Mario
-	sf::Texture *mur = NULL, *caisse = NULL, *caisseOK = NULL, *objectif = NULL, *marioActuel = NULL;
+	sf::Sprite *mario[4] = { NULL }; // 4 surfaces pour 4 directions de Mario
+	sf::Sprite *mur = NULL, *caisse = NULL, *caisseOK = NULL, *objectif = NULL, *marioActuel = NULL;
 	sf::Transformable position, positionJoueur;
 	sf::Event event;
+	
 
-	sf::RenderTexture(marioActuel, NULL, ecran, &position);
+	sf::RenderWindow(marioActuel, NULL, window, &position);
 
 	int continuer = 1, objectifsRestants = 0, i = 0, j = 0;
 	int carte[NB_BLOCS_LARGEUR][NB_BLOCS_HAUTEUR] = { 0 };
 
 	// Chargement des sprites (décors, personnage...)
-	sf::Texture texture_mur;
-	if (!texture_mur.loadFromFile("src/img/mur.jpg"))
+	sf::Texture texturemur;
+	if(!texturemur.loadFromFile("src/img/mur.jpg"));
 	{
 		cout << "La texture n'a pas chargée";
 	}
-
-	sf::Texture texture_caisse;
-	if (!texture_caisse.loadFromFile("src/img/caisse.jpg"))
+	sf::Texture texturecaisse;
+	if(!texturecaisse.loadFromFile("src/img/caisse.jpg"));
 	{
 		cout << "La texture n'a pas chargée";
 	}
-
-	sf::Texture texture_caisseOK;
-	if (!texture_caisseOK.loadFromFile("src/img/caisseOK.jpg"))
+	sf::Texture texturecaisseOK;
+	if(!texturecaisseOK.loadFromFile("src/img/caisseOK.jpg"));
 	{
 		cout << "La texture n'a pas chargée";
 	}
 	
-	sf::Texture texture_objectif;
-	if (!texture_objectif.loadFromFile("src/img/objectif.jpg"))
+	sf::Texture textureobjectif;
+	if(!textureobjectif.loadFromFile("src/img/objectif.jpg"));
 	{
 		cout << "La texture n'a pas chargée";
 	}
 
-	sf::Texture texture_mario[BAS];
-	if (!texture_mario[BAS].loadFromFile("src/img/mario_bas.jpg"))
+	sf::Texture texturemario[BAS];
+	if(!texturemario[BAS].loadFromFile("src/img/mario_bas.jpg"));
+	{
+		cout << "La texture n'a pas chargée";
+	}
+	
+	sf::Texture texturemario[GAUCHE];
+	if(!texturemario[GAUCHE].loadFromFile("src/img/mario_gauche.jpg"));
 	{
 		cout << "La texture n'a pas chargée";
 	}
 
-	sf::Texture texture_mario[GAUCHE];
-	if (!texture_mario[GAUCHE].loadFromFile("src/img/mario_gauche.jpg"))
+	sf::Texture texturemario[HAUT];
+	if(!texturemario[HAUT].loadFromFile("src/img/mario_haut.jpg"));
+	{
+		cout << "La texture n'a pas chargée";
+	}
+	
+	sf::Texture texturemario[DROITE];
+	if(!texturemario[DROITE].loadFromFile("src/img/mario_droite.jpg"));
 	{
 		cout << "La texture n'a pas chargée";
 	}
 
-	sf::Texture texture_mario[HAUT];
-	if (!texture_mario[HAUT].loadFromFile("src/img/mario_haut.jpg"))
-	{
-		cout << "La texture n'a pas chargée";
-	}
-
-	sf::Texture mario[DROITE];
-	if (!texture_mario[DROITE].loadFromFile("src/img/mario_droite.jpg"))
-	{
-		cout << "La texture n'a pas chargée";
-	}
+	
 
 	// Chargement du niveau
 	if (!chargerNiveau(carte))
@@ -128,7 +132,7 @@ void jouer(sf::RenderWindow* ecran)
 	}
 
 	// Effacement de l'écran
-	window.clear(ecran, NULL);
+	window.clear(window, NULL);
 
 	// Placement des objets à l'écran
 	objectifsRestants = 0;
@@ -143,16 +147,16 @@ void jouer(sf::RenderWindow* ecran)
 			switch(carte[i][j])
 			{
 			case MUR:
-				sf::RenderTexture(mur, NULL, ecran, &position);
+				sf::RenderWindow(mur, NULL, window, &position);
 				break;
 			case CAISSE:
-				sf::RenderTexture(caisse, NULL, ecran, &position);
+				sf::RenderWindow(caisse, NULL, window, &position);
 				break;
 			case CAISSE_OK:
-				sf::RenderTexture(caisseOK, NULL, ecran, &position);
+				sf::RenderWindow(caisseOK, NULL, window, &position);
 				break;
 			case OBJECTIF:
-				sf::RenderTexture(objectif, NULL, ecran, &position);
+				sf::RenderWindow(objectif, NULL, window, &position);
 				objectifsRestants = 1;
 				break;
 			}
@@ -166,5 +170,56 @@ void jouer(sf::RenderWindow* ecran)
 	// On place le joueur à la bonne position
 	position.x = positionJoueur.x * TAILLE_BLOC;
 	position.y = positionJoueur.y * TAILLE_BLOC;
-	sf::RenderTexture(marioActuel, NULL, ecran, &position);
+	sf::RenderWindow(marioActuel, NULL, window, &position);
+}
+
+void deplacerJoueur(int carte[][NB_BLOCS_HAUTEUR], sf::Transformable* pos, int direction)
+{
+	switch (direction)
+	{
+		if (pos->y - 1 < 0) // Si le joueur dépasse l'écran, on arrête
+			break;
+
+		if (carte[pos->x][pos->y - 1] == MUR) // S'il y a un mur, on arrête
+			break;
+
+		// Si on veut pousser une caisse, il faut vérifier qu'il n'y a pas de mur derrière (ou une autre caisse, ou la limite du monde)
+		if ((carte[pos->x][pos->y - 1] == CAISSE || carte[pos->x][pos->y - 1] == CAISSE_OK) &&
+			(pos->y - 2 < 0 || carte[pos->x][pos->y - 2] == MUR ||
+				carte[pos->x][pos->y - 2] == CAISSE || carte[pos->x][pos->y - 2] == CAISSE_OK))
+			break;
+	}
+
+	// Si on arrive là, c'est qu'on peut déplacer le joueur !
+	// On vérifie d'abord s'il y a une caisse à déplacer
+	deplacerCaisse(&carte[pos->x][pos->y - 1], &carte[pos->x][pos->y - 2]);
+
+	pos->y--;
+
+}
+
+void deplacerCaisse(int* premiereCase, int* secondeCase)
+{
+	if (*premiereCase == CAISSE || *premiereCase == CAISSE_OK)
+	{
+		if (*secondeCase == OBJECTIF)
+		{
+			*secondeCase == CAISSE_OK;
+		}
+
+		else
+		{
+			*secondeCase = CAISSE;
+		}
+
+		if (*premiereCase == CAISSE_OK)
+		{
+			*premiereCase = OBJECTIF;
+		}
+
+		else
+		{
+			*premiereCase = VIDE;
+		}
+	}
 }
