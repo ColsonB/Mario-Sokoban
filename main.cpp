@@ -41,12 +41,12 @@ int main(int argc, char **argv) {
 			if (event.type == sf::Event::Closed) {
 				window.close();
 			}
-			if (event.type == sf::Event::KeyPressed) {
+				if (event.type == sf::Event::KeyPressed) {
 				if (event.key.code == sf::Keyboard::Escape) {
 					window.close();
 				}
 				if (event.key.code == sf::Keyboard::Num1) {
-					//jouer(&window);
+					//jouer(&ecran);
 				}
 				if (event.key.code == sf::Keyboard::Num2) {
 					editeur(&window);
