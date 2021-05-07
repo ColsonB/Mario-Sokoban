@@ -169,7 +169,7 @@ void jouer(sf::RenderWindow* ecran)
 	// On place le joueur à la bonne position
 	position.x = positionJoueur.x * TAILLE_BLOC;
 	position.y = positionJoueur.y * TAILLE_BLOC;
-	sf::RenderWindow*(marioActuel, ecran, &position);
+	sf::RenderWindow(marioActuel, ecran, &position);
 }
 
 void deplacerJoueur(int carte[][NB_BLOCS_HAUTEUR], sf::Vector2i* pos, int direction)
