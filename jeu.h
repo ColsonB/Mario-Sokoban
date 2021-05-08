@@ -6,18 +6,17 @@
 
 #include "constantes.h"
 
-void jouer(sf::RenderWindow* window)
+void jouer(sf::RenderWindow* ecran)
 {
 
 	using namespace std;
 
 	sf::Sprite *mario[4] = { NULL }; // 4 surfaces pour 4 directions de Mario
 	sf::Sprite *mur = NULL, *caisse = NULL, *caisseOK = NULL, *objectif = NULL, *marioActuel = NULL;
-	sf::Transformable position, positionJoueur;
+	sf::Vector2i position, positionJoueur;
 	sf::Event event;
-	
 
-	sf::RenderWindow(marioActuel, NULL, window, &position);
+	sf::RenderWindow(marioActuel,ecran, & position);
 
 	int continuer = 1, objectifsRestants = 0, i = 0, j = 0;
 	int carte[NB_BLOCS_LARGEUR][NB_BLOCS_HAUTEUR] = { 0 };
@@ -82,20 +81,20 @@ void jouer(sf::RenderWindow* window)
 	{
 		for (j = 0; j < NB_BLOCS_HAUTEUR; j++)
 		{
-			if (carte[i][j]) == MARIO) // Si Mario se trouve à cette position
+			if (carte[i][j] == MARIO) // Si Mario se trouve à cette position
 			{
-				positionJoueur.x = i;
-				positionJoueur.y = j;
-				carte[i][j] = VIDE;
+			positionJoueur.x = i;
+			positionJoueur.y = j;
+			carte[i][j] = VIDE;
 			}
 		}
 	}
 
-	sf::Event::KeyPressed(100, 100); // Activation de la répétition des touches
+	sf::Event::KeyPressed*(100, 100); // Activation de la répétition des touches
 
 	sf::Event event;
 
-	while (window.pollEvent(event))
+	while(window.pollEvent(event))
 	{
 
 		if (event.key.code == sf::Event::KeyPressed)
@@ -132,7 +131,7 @@ void jouer(sf::RenderWindow* window)
 	}
 
 	// Effacement de l'écran
-	window.clear(window, NULL);
+	window.clear(ecran, NULL);
 
 	// Placement des objets à l'écran
 	objectifsRestants = 0;
@@ -147,16 +146,16 @@ void jouer(sf::RenderWindow* window)
 			switch(carte[i][j])
 			{
 			case MUR:
-				sf::RenderWindow(mur, NULL, window, &position);
+				sf::RenderWindow(mur, NULL, ecran, &position);
 				break;
 			case CAISSE:
-				sf::RenderWindow(caisse, NULL, window, &position);
+				sf::RenderWindow(caisse, NULL, ecran, &position);
 				break;
 			case CAISSE_OK:
-				sf::RenderWindow(caisseOK, NULL, window, &position);
+				sf::RenderWindow(caisseOK, NULL, ecran, &position);
 				break;
 			case OBJECTIF:
-				sf::RenderWindow(objectif, NULL, window, &position);
+				sf::RenderWindow(objectif, NULL, ecran, &position);
 				objectifsRestants = 1;
 				break;
 			}
@@ -170,10 +169,10 @@ void jouer(sf::RenderWindow* window)
 	// On place le joueur à la bonne position
 	position.x = positionJoueur.x * TAILLE_BLOC;
 	position.y = positionJoueur.y * TAILLE_BLOC;
-	sf::RenderWindow(marioActuel, NULL, window, &position);
+	sf::RenderWindow(marioActuel, ecran, &position);
 }
 
-void deplacerJoueur(int carte[][NB_BLOCS_HAUTEUR], sf::Transformable* pos, int direction)
+void deplacerJoueur(int carte[][NB_BLOCS_HAUTEUR], sf::Vector2i* pos, int direction)
 {
 	switch (direction)
 	{
