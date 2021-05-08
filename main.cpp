@@ -15,13 +15,13 @@ int main(int argc, char **argv) {
 	sf::RenderWindow window(sf::VideoMode(LARGEUR_FENETRE, HAUTEUR_FENETRE, 32), "Mario Sokoban");
 
 	sf::Texture texture;
-	if (!texture.loadFromFile("src/img/caisse.jpg")) // permet de charger la texture
+	if (!texture.loadFromFile("src/img/caisse.png")) // permet de charger la texture
 	{
 		cout << "La texture n'a pas chargée";
 	}
 
 	sf::Texture texturemenu;
-	if (!texturemenu.loadFromFile("src/img/menu.jpg"))
+	if (!texturemenu.loadFromFile("src/img/menu.png"))
 	{
 		cout << "La texture n'a pas chargée";
 	}

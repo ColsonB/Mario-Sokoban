@@ -11,6 +11,13 @@ void editeur(sf::RenderWindow* window) {
 
     sf::Sprite vide, mur, caisse, caisseOk, objectif, mario;
     sf::Sprite *allAsset[6] = { &vide, &mur, &caisse, &caisseOk, &objectif, &mario };
+    sf::Sprite* allChoix[6] = { &vide, &mur, &caisse, &caisseOk, &objectif, &mario };
+
+    sf::Vector2i mousePosition = sf::Mouse::getPosition(*window);
+    sf::FloatRect Position;
+
+    int x = mousePosition.x / TAILLE_BLOC;
+    int y = mousePosition.y / TAILLE_BLOC;
 
     int objetSelect = VIDE;
     int i = 0, j = 0;
@@ -18,19 +25,19 @@ void editeur(sf::RenderWindow* window) {
 
     // Chargement des textures des objets
     sf::Texture textureVide;
-    textureVide.loadFromFile("src/img/vide.jpg");
+    textureVide.loadFromFile("src/img/vide.png");
     vide.setTexture(textureVide);
 
     sf::Texture textureMur;
-    textureMur.loadFromFile("src/img/mur.jpg");
+    textureMur.loadFromFile("src/img/mur.png");
     mur.setTexture(textureMur);
 
     sf::Texture textureCaisse;
-    textureCaisse.loadFromFile("src/img/caisse.jpg");
+    textureCaisse.loadFromFile("src/img/caisse.png");
     caisse.setTexture(textureCaisse);
 
     sf::Texture textureCaisseOk;
-    textureCaisseOk.loadFromFile("src/img/caisse_ok.jpg");
+    textureCaisseOk.loadFromFile("src/img/caisse_ok.png");
     caisseOk.setTexture(textureCaisseOk);
 
     sf::Texture textureObjectif;
@@ -38,8 +45,10 @@ void editeur(sf::RenderWindow* window) {
     objectif.setTexture(textureObjectif);
 
     sf::Texture textureMario;
-    textureMario.loadFromFile("src/img/mario_bas.gif");
+    textureMario.loadFromFile("src/img/mario_bas.png");
     mario.setTexture(textureMario);
+
+    chargerNiveau(carte);
 
     sf::Event event;
     while (window->isOpen()) {
@@ -79,17 +88,28 @@ void editeur(sf::RenderWindow* window) {
                 }
             }
             //Placement objet
-            sf::Vector2i mousePosition = sf::Mouse::getPosition(*window);
-            int x = mousePosition.x / TAILLE_BLOC;
-            int y = mousePosition.y / TAILLE_BLOC;
-            if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-                carte[x][y] = objetSelect;
-                sauvegarderNiveau(carte);
+            for (int ligne = 0; ligne < NB_BLOCS_LARGEUR; ligne++) {
+                for (int colonne = 0; colonne < NB_BLOCS_HAUTEUR; colonne++) { 
+                    Position.top = colonne * TAILLE_BLOC;
+                    Position.left = ligne * TAILLE_BLOC;
+                    Position.width = TAILLE_BLOC;
+                    Position.height = TAILLE_BLOC;
+                    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+                        carte[x][y] = objetSelect;
+                    }
+                    sf::Sprite* asset = allAsset [carte[ligne][colonne]] ;
+                    asset->setPosition(Position.left, Position.top);
+                    window->draw(*asset);
+                }
             }
+            /*carte[x][y] = objetSelect;
+            sf::Sprite* choix = allChoix[carte[x][y]];
+            choix->setPosition(mousePosition.x, mousePosition.y);
+            window->draw(*choix);*/
+            window->display();
+            
         }
         window->clear(sf::Color::Black);
-        window->draw(*allAsset[objetSelect]);
-        window->display();
-        chargerNiveau(carte);
+        
     }
 }

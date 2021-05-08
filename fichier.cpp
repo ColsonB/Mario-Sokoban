@@ -9,7 +9,7 @@ int chargerNiveau(int niveau[][NB_BLOCS_HAUTEUR]){
 	char ligneFichier[NB_BLOCS_LARGEUR * NB_BLOCS_HAUTEUR + 1] = { 0 };
 	int i = 0, j = 0;
 
-	fichier = fopen("niveaux.lvl", "r");
+	fichier = fopen("niveau.lvl", "r");
 	if (fichier == NULL) {
 		return 0;
 	}else{
@@ -44,7 +44,7 @@ int sauvegarderNiveau(int niveau[][NB_BLOCS_HAUTEUR]){
     FILE* fichier = NULL;
     int i = 0, j = 0;
 
-    fichier = fopen("niveaux.lvl", "w");
+    fichier = fopen("niveau.lvl", "w");
     if (fichier == NULL)
         return 0;
 
