@@ -11,13 +11,6 @@ void editeur(sf::RenderWindow* window) {
 
     sf::Sprite vide, mur, caisse, caisseOk, objectif, mario;
     sf::Sprite *allAsset[6] = { &vide, &mur, &caisse, &caisseOk, &objectif, &mario };
-    sf::Sprite* allChoix[6] = { &vide, &mur, &caisse, &caisseOk, &objectif, &mario };
-
-    sf::Vector2i mousePosition = sf::Mouse::getPosition(*window);
-    sf::FloatRect Position;
-
-    int x = mousePosition.x / TAILLE_BLOC;
-    int y = mousePosition.y / TAILLE_BLOC;
 
     int objetSelect = VIDE;
     int i = 0, j = 0;
@@ -88,8 +81,12 @@ void editeur(sf::RenderWindow* window) {
                 }
             }
             //Placement objet
+            sf::Vector2i mousePosition = sf::Mouse::getPosition(*window);
+            sf::FloatRect Position;
             for (int ligne = 0; ligne < NB_BLOCS_LARGEUR; ligne++) {
                 for (int colonne = 0; colonne < NB_BLOCS_HAUTEUR; colonne++) { 
+                    int x = mousePosition.x / TAILLE_BLOC;
+                    int y = mousePosition.y / TAILLE_BLOC;
                     Position.top = colonne * TAILLE_BLOC;
                     Position.left = ligne * TAILLE_BLOC;
                     Position.width = TAILLE_BLOC;
