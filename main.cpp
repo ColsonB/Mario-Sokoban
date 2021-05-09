@@ -46,7 +46,7 @@ int main(int argc, char **argv) {
 					window.close();
 				}
 				if (event.key.code == sf::Keyboard::Num1) {
-					//jouer(&ecran);
+					jouer(&window);
 				}
 				if (event.key.code == sf::Keyboard::Num2) {
 					editeur(&window);
