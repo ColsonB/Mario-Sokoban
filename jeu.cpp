@@ -142,12 +142,12 @@ void jouer(sf::RenderWindow* window)
 		
 		sf::FloatRect Position;
 		for (int ligne = 0; ligne < NB_BLOCS_LARGEUR; ligne++) {
-			for (int colonne = 0; colonne < NB_BLOCS_HAUTEUR; colonne++) 
+			for (int colonne = 0; colonne < NB_BLOCS_HAUTEUR; colonne++){
 				Position.top = colonne * TAILLE_BLOC;
 				Position.left = ligne * TAILLE_BLOC;
 				Position.width = TAILLE_BLOC;
 				Position.height = TAILLE_BLOC;
-				sf::Sprite* asset = allAsset[carte[ligne][colonne]];
+			sf::Sprite* asset = allAsset [carte[ligne][colonne]];
 				asset->setPosition(Position.left, Position.top);
 				window->draw(*asset);
 			}
@@ -157,9 +157,6 @@ void jouer(sf::RenderWindow* window)
 		if (!objectifsRestants)
 			continuer = 0;
 
-		// On place le joueur à la bonne Position
-		Position.x = PositionJoueur.x * TAILLE_BLOC;
-		Position.y = PositionJoueur.y * TAILLE_BLOC;
 		/*sf::RenderWindow(window, &Position);*/
 	}
 
