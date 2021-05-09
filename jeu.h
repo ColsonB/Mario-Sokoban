@@ -7,5 +7,5 @@
 #include "constantes.h"
 
 void jouer(sf::RenderWindow* window);
-void deplacerJoueur(int carte[][NB_BLOCS_HAUTEUR], sf::Vector2i* pos, int direction);
-void deplacerCaisse(int* premiereCase, int* secondeCase);
+//void deplacerJoueur(int carte[][NB_BLOCS_HAUTEUR], sf::Vector2i* pos, int direction);
+//void deplacerCaisse(int* premiereCase, int* secondeCase);

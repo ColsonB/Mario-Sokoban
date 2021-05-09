@@ -8,16 +8,13 @@
 #include "fichier.h"
 
 
-void jouer(sf::RenderWindow* window)
-{
+void jouer(sf::RenderWindow* window) {
 
 	using namespace std;
 
-	sf::Sprite* mario[5] = { NULL }; // 4 surfaces pour 4 directions de Mario
-	sf::Sprite mur, caisse, caisseOk, objectif;
-	sf::Sprite* allAsset[6] = {&mur, &caisse, &caisseOk, &objectif};
+	sf::Sprite vide, mur, caisse, caisseOk, objectif, marioHaut, marioBas, marioGauche, marioDroite;
+	sf::Sprite* allAsset[6] = { &vide, &mur, &caisse, &caisseOk, &objectif };
 	sf::Vector2i Position, PositionJoueur;
-	sf::Event event;
 
 	/*sf::RenderWindow(window, &Position);*/
 
@@ -25,84 +22,59 @@ void jouer(sf::RenderWindow* window)
 	int carte[NB_BLOCS_LARGEUR][NB_BLOCS_HAUTEUR] = { 0 };
 
 	// Chargement des sprites (décors, personnage...)
-	sf::Texture texturemur;
-	if (!texturemur.loadFromFile("src/img/mur.jpg"));
-	{
-		cout << "La texture n'a pas chargée";
-	}
-	sf::Texture texturecaisse;
-	if (!texturecaisse.loadFromFile("src/img/caisse.jpg"));
-	{
-		cout << "La texture n'a pas chargée";
-	}
-	sf::Texture texturecaisseOK;
-	if (!texturecaisseOK.loadFromFile("src/img/caisseOK.jpg"));
-	{
-		cout << "La texture n'a pas chargée";
-	}
+	sf::Texture textureVide;
+	textureVide.loadFromFile("src/img/vide.png");
+	vide.setTexture(textureVide);
 
-	sf::Texture textureobjectif;
-	if (!textureobjectif.loadFromFile("src/img/objectif.jpg"));
-	{
-		cout << "La texture n'a pas chargée";
-	}
+	sf::Texture textureMur;
+	textureMur.loadFromFile("src/img/mur.png");
+	mur.setTexture(textureMur);
 
-	sf::Texture texturemario[BAS];
-	if (!texturemario[BAS].loadFromFile("src/img/mario_bas.jpg"));
-	{
-		cout << "La texture n'a pas chargée";
-	}
+	sf::Texture textureCaisse;
+	textureCaisse.loadFromFile("src/img/caisse.png");
+	caisse.setTexture(textureCaisse);
 
-	sf::Texture texturemario[GAUCHE];
-	if (!texturemario[GAUCHE].loadFromFile("src/img/mario_gauche.jpg"));
-	{
-		cout << "La texture n'a pas chargée";
-	}
+	sf::Texture textureCaisseOk;
+	textureCaisseOk.loadFromFile("src/img/caisse_ok.png");
+	caisseOk.setTexture(textureCaisseOk);
 
-	sf::Texture texturemario[HAUT];
-	if (!texturemario[HAUT].loadFromFile("src/img/mario_haut.jpg"));
-	{
-		cout << "La texture n'a pas chargée";
-	}
+	sf::Texture textureObjectif;
+	textureObjectif.loadFromFile("src/img/objectif.png");
+	objectif.setTexture(textureObjectif);
 
-	sf::Texture texturemario[DROITE];
-	if (!texturemario[DROITE].loadFromFile("src/img/mario_droite.jpg"));
-	{
-		cout << "La texture n'a pas chargée";
-	}
+	sf::Texture textureMarioHaut;
+	textureMarioHaut.loadFromFile("src/img/mario_haut.png");
+	marioHaut.setTexture(textureMarioHaut);
 
+	sf::Texture textureMarioBas;
+	textureMarioBas.loadFromFile("src/img/mario_bas.png");
+	marioBas.setTexture(textureMarioBas);
 
+	sf::Texture textureMarioGauche;
+	textureMarioGauche.loadFromFile("src/img/mario_gauche.png");
+	marioGauche.setTexture(textureMarioGauche);
+
+	sf::Texture textureMarioDroite;
+	textureMarioDroite.loadFromFile("src/img/mario_droite.png");
+	marioDroite.setTexture(textureMarioDroite);
 
 	// Chargement du niveau
-	if (!chargerNiveau(carte))
-	{
-		exit(EXIT_FAILURE); // On arrête le jeu si on n'a pas pu charger le niveau
-	}
+	chargerNiveau(carte);
 
 	// Recherche de la Position de Mario au départ
-	for (i = 0; i < NB_BLOCS_LARGEUR; i++)
-	{
-		for (j = 0; j < NB_BLOCS_HAUTEUR; j++)
-		{
-			if (carte[i][j] == MARIO) // Si Mario se trouve à cette Position
-			{
+	for (i = 0; i < NB_BLOCS_LARGEUR; i++){
+		for (j = 0; j < NB_BLOCS_HAUTEUR; j++){
+			if (carte[i][j] == MARIO){ // Si Mario se trouve à cette Position
 				PositionJoueur.x = i;
 				PositionJoueur.y = j;
-				carte[i][j] = VIDE;
+				//carte[i][j] = VIDE;
 			}
 		}
 	}
 
-	sf::Event::KeyPressed* (100, 100); // Activation de la répétition des touches
-
 	sf::Event event;
-
-	while (window->pollEvent(event))
-	{
-
-		if (event.key.code == sf::Event::KeyPressed)
-		{
-
+	while (window->isOpen()) {
+		while (window->pollEvent(event)) {
 			if (event.type == sf::Event::Closed) {
 				window->close();
 			}
@@ -111,56 +83,50 @@ void jouer(sf::RenderWindow* window)
 					window->close();
 				}
 
-				if (event.key.code == sf::Keyboard::Up){
-					mario[HAUT];
-					deplacerJoueur(carte, &PositionJoueur, HAUT);
+				if (event.key.code == sf::Keyboard::Up) {
+					textureMarioHaut;
+					//deplacerJoueur(carte, &PositionJoueur, HAUT);
 				}
 
-				if (event.key.code == sf::Keyboard::Down){
-					mario[BAS];
-					deplacerJoueur(carte, &PositionJoueur, BAS);
+				if (event.key.code == sf::Keyboard::Down) {
+					textureMarioBas;
+					//deplacerJoueur(carte, &PositionJoueur, BAS);
 				}
 
-				if (event.key.code == sf::Keyboard::Right){
-					mario[DROITE];
-					deplacerJoueur(carte, &PositionJoueur, DROITE);
+				if (event.key.code == sf::Keyboard::Right) {
+					textureMarioDroite;
+					//deplacerJoueur(carte, &PositionJoueur, DROITE);
 				}
 
-				if (event.key.code == sf::Keyboard::Left){
-					mario[GAUCHE];
-					deplacerJoueur(carte, &PositionJoueur, GAUCHE);
+				if (event.key.code == sf::Keyboard::Left) {
+					textureMarioGauche;
+					//deplacerJoueur(carte, &PositionJoueur, GAUCHE);
 				}
+			}
 
+			sf::FloatRect Position;
+			for (int ligne = 0; ligne < NB_BLOCS_LARGEUR; ligne++) {
+				for (int colonne = 0; colonne < NB_BLOCS_HAUTEUR; colonne++) {
+					Position.top = colonne * TAILLE_BLOC;
+					Position.left = ligne * TAILLE_BLOC;
+					Position.width = TAILLE_BLOC;
+					Position.height = TAILLE_BLOC;
+					sf::Sprite* asset = allAsset[carte[ligne][colonne]];
+					asset->setPosition(Position.left, Position.top);
+					window->draw(*asset);
+				}
+			}
+			window->display();
+			// Si on n'a trouvé aucun objectif sur la carte, c'est qu'on a gagné
+			if (!objectifsRestants) {
+				//continuer = 0;
 			}
 		}
-
-		// Effacement de l'écran
 		window->clear(sf::Color::Black);
-
-		// Placement des objets à l'écran
-		objectifsRestants = 0;
-		
-		sf::FloatRect Position;
-		for (int ligne = 0; ligne < NB_BLOCS_LARGEUR; ligne++) {
-			for (int colonne = 0; colonne < NB_BLOCS_HAUTEUR; colonne++){
-				Position.top = colonne * TAILLE_BLOC;
-				Position.left = ligne * TAILLE_BLOC;
-				Position.width = TAILLE_BLOC;
-				Position.height = TAILLE_BLOC;
-			sf::Sprite* asset = allAsset [carte[ligne][colonne]];
-				asset->setPosition(Position.left, Position.top);
-				window->draw(*asset);
-			}
-		}
-
-		// Si on n'a trouvé aucun objectif sur la carte, c'est qu'on a gagné
-		if (!objectifsRestants)
-			continuer = 0;
-
-		/*sf::RenderWindow(window, &Position);*/
 	}
+}
 
-	void deplacerJoueur(int carte[][NB_BLOCS_HAUTEUR], sf::Vector2i * pos, int direction)
+	/*void deplacerJoueur(int carte[][NB_BLOCS_HAUTEUR], sf::Vector2i * pos, int direction)
 	{
 		switch (direction)
 		{
@@ -209,4 +175,4 @@ void jouer(sf::RenderWindow* window)
 				*premiereCase = VIDE;
 			}
 		}
-	}
+	}*/
