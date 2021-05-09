@@ -13,13 +13,13 @@ void jouer(sf::RenderWindow* window)
 
 	using namespace std;
 
-	sf::Sprite* mario[4] = { NULL }; // 4 surfaces pour 4 directions de Mario
-	sf::Sprite mur, caisse, caisseOk, objectif, marioActuel;
-	sf::Sprite* allAsset[6] = {&mur, &caisse, &caisseOk, &objectif, &marioActuel};
+	sf::Sprite* mario[5] = { NULL }; // 4 surfaces pour 4 directions de Mario
+	sf::Sprite mur, caisse, caisseOk, objectif;
+	sf::Sprite* allAsset[6] = {&mur, &caisse, &caisseOk, &objectif};
 	sf::Vector2i Position, PositionJoueur;
 	sf::Event event;
 
-	sf::RenderWindow(marioActuel, window, &Position);
+	/*sf::RenderWindow(window, &Position);*/
 
 	int continuer = 1, objectifsRestants = 0, i = 0, j = 0;
 	int carte[NB_BLOCS_LARGEUR][NB_BLOCS_HAUTEUR] = { 0 };
@@ -112,22 +112,22 @@ void jouer(sf::RenderWindow* window)
 				}
 
 				if (event.key.code == sf::Keyboard::Up){
-					marioActuel = mario[HAUT];
+					mario[HAUT];
 					deplacerJoueur(carte, &PositionJoueur, HAUT);
 				}
 
 				if (event.key.code == sf::Keyboard::Down){
-					marioActuel = mario[BAS];
+					mario[BAS];
 					deplacerJoueur(carte, &PositionJoueur, BAS);
 				}
 
 				if (event.key.code == sf::Keyboard::Right){
-					marioActuel = mario[DROITE];
+					mario[DROITE];
 					deplacerJoueur(carte, &PositionJoueur, DROITE);
 				}
 
 				if (event.key.code == sf::Keyboard::Left){
-					marioActuel = mario[GAUCHE];
+					mario[GAUCHE];
 					deplacerJoueur(carte, &PositionJoueur, GAUCHE);
 				}
 
@@ -160,7 +160,7 @@ void jouer(sf::RenderWindow* window)
 		// On place le joueur à la bonne Position
 		Position.x = PositionJoueur.x * TAILLE_BLOC;
 		Position.y = PositionJoueur.y * TAILLE_BLOC;
-		sf::RenderWindow(marioActuel, window, &Position);
+		/*sf::RenderWindow(window, &Position);*/
 	}
 
 	void deplacerJoueur(int carte[][NB_BLOCS_HAUTEUR], sf::Vector2i * pos, int direction)
