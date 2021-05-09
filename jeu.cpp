@@ -111,26 +111,22 @@ void jouer(sf::RenderWindow* window)
 					window->close();
 				}
 
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-				{
+				if (event.key.code == sf::Keyboard::Up){
 					marioActuel = mario[HAUT];
 					deplacerJoueur(carte, &PositionJoueur, HAUT);
 				}
 
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-				{
+				if (event.key.code == sf::Keyboard::Down){
 					marioActuel = mario[BAS];
 					deplacerJoueur(carte, &PositionJoueur, BAS);
 				}
 
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-				{
+				if (event.key.code == sf::Keyboard::Right){
 					marioActuel = mario[DROITE];
 					deplacerJoueur(carte, &PositionJoueur, DROITE);
 				}
 
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-				{
+				if (event.key.code == sf::Keyboard::Left){
 					marioActuel = mario[GAUCHE];
 					deplacerJoueur(carte, &PositionJoueur, GAUCHE);
 				}
