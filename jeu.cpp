@@ -16,12 +16,10 @@ void jouer(sf::RenderWindow* window) {
 	sf::Sprite* allAsset[6] = { &vide, &mur, &caisse, &caisseOk, &objectif };
 	sf::Vector2i Position, PositionJoueur;
 
-	/*sf::RenderWindow(window, &Position);*/
-
 	int continuer = 1, objectifsRestants = 0, i = 0, j = 0;
 	int carte[NB_BLOCS_LARGEUR][NB_BLOCS_HAUTEUR] = { 0 };
 
-	// Chargement des sprites (décors, personnage...)
+	// Chargement des textures des objets
 	sf::Texture textureVide;
 	textureVide.loadFromFile("src/img/vide.png");
 	vide.setTexture(textureVide);
@@ -72,8 +70,10 @@ void jouer(sf::RenderWindow* window) {
 		}
 	}
 
-	sf::Event event;
+	// On fait tourner le programme jusqu'à ce que la fenêtre soit fermée
 	while (window->isOpen()) {
+		// On inspecte tous les évènements de la fenêtre qui ont été émis depuis la précédente itération
+		sf::Event event;
 		while (window->pollEvent(event)) {
 			if (event.type == sf::Event::Closed) {
 				window->close();
@@ -104,6 +104,7 @@ void jouer(sf::RenderWindow* window) {
 				}
 			}
 
+			/* Affichage du niveau */
 			sf::FloatRect Position;
 			for (int ligne = 0; ligne < NB_BLOCS_LARGEUR; ligne++) {
 				for (int colonne = 0; colonne < NB_BLOCS_HAUTEUR; colonne++) {
@@ -115,14 +116,17 @@ void jouer(sf::RenderWindow* window) {
 					asset->setPosition(Position.left, Position.top);
 					window->draw(*asset);
 				}
-			}
+			}			
 			window->display();
-			// Si on n'a trouvé aucun objectif sur la carte, c'est qu'on a gagné
-			if (!objectifsRestants) {
-				//continuer = 0;
-			}
 		}
 		window->clear(sf::Color::Black);
+		/* Si on n'a trouvé aucun objectif sur la carte, c'est qu'on a gagné
+		if (objectifsRestants == 0) {
+			sf::Text text;
+			text.setString("Victoire");
+			window->draw(text);
+			window->display();
+		}*/
 	}
 }
 

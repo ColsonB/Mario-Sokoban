@@ -43,8 +43,10 @@ void editeur(sf::RenderWindow* window) {
 
     chargerNiveau(carte);
 
-    sf::Event event;
+    // On fait tourner le programme jusqu'à ce que la fenêtre soit fermée
     while (window->isOpen()) {
+        // On inspecte tous les évènements de la fenêtre qui ont été émis depuis la précédente itération
+        sf::Event event;
         while (window->pollEvent(event)) {
             if (event.type == sf::Event::Closed) {
                 window->close();

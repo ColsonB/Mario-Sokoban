@@ -12,7 +12,7 @@
 int main(int argc, char **argv) {
 	using namespace std;
 
-	sf::RenderWindow window(sf::VideoMode(LARGEUR_FENETRE, HAUTEUR_FENETRE, 32), "Mario Sokoban");
+	sf::RenderWindow window(sf::VideoMode(LARGEUR_FENETRE, HAUTEUR_FENETRE, 32), "XenceV Sokoban");
 
 	sf::Texture texture;
 	if (!texture.loadFromFile("src/img/caisse.png")) // permet de charger la texture
@@ -26,17 +26,16 @@ int main(int argc, char **argv) {
 		cout << "La texture n'a pas chargée";
 	}
 
+	// Chargement de la texturesdu menu
 	sf::Sprite sprite;
 	sprite.setTexture(texturemenu);
+	// Modification la position absolue
+	sprite.setPosition(sf::Vector2f(0.f, 0.f)); 
 
-	sprite.setPosition(sf::Vector2f(0.f, 0.f)); // modifie la position absolue
-
-	// on fait tourner le programme jusqu'à ce que la fenêtre soit fermée
+	// On fait tourner le programme jusqu'à ce que la fenêtre soit fermée
 	while (window.isOpen()) {
-
-		// on inspecte tous les évènements de la fenêtre qui ont été émis depuis la précédente itération
+		// On inspecte tous les évènements de la fenêtre qui ont été émis depuis la précédente itération
 		sf::Event event;
-		
 		while (window.pollEvent(event)) {
 			if (event.type == sf::Event::Closed) {
 				window.close();
