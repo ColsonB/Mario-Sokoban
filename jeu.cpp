@@ -17,7 +17,7 @@ void jouer(sf::RenderWindow* window) {
 	sf::Sprite* allAsset[6] = { &vide, &mur, &caisse, &objectif, &caisseOk, &mario };
 	sf::Vector2i Position, PositionJoueur;
 
-	int continuer = 1, objectifsRestants = 1, direction = BAS, i = 0, j = 0;
+	int continuer = 1, objectifsRestants = NB_BLOCS_LARGEUR * NB_BLOCS_HAUTEUR, direction = BAS, i = 0, j = 0;
 	int carte[NB_BLOCS_LARGEUR][NB_BLOCS_HAUTEUR] = { 0 };
 
 	// Chargement des textures des objets
@@ -113,14 +113,27 @@ void jouer(sf::RenderWindow* window) {
 			}
 			mario.setTexture(textureMario[direction]);
 			
-			// Si on n'a trouvé aucun objectif sur la carte, c'est qu'on a gagné
+			// S'il ne reste plus d'objectif on gagne la partie
 			if (objectifsRestants == 0) {
 				sf::Font font;
 				font.loadFromFile("src/font/Ketchum.otf");
-				sf::Text text;
-				text.setFont(font);
-				text.setString("Victoire");
-				window->draw(text);
+				sf::Text victoire;
+				victoire.setFont(font);
+				victoire.setString("Victoire");
+				victoire.setPosition(
+					(LARGEUR_FENETRE - victoire.getLocalBounds().width) / 2,
+					(HAUTEUR_FENETRE - victoire.getLocalBounds().height) / 2
+				);
+				window->draw(victoire);
+			} else {
+				objectifsRestants = NB_BLOCS_LARGEUR * NB_BLOCS_HAUTEUR;
+				for (i = 0; i < NB_BLOCS_LARGEUR; i++) {
+					for (j = 0; j < NB_BLOCS_HAUTEUR; j++) {
+						if (carte[i][j] != OBJECTIF) {
+							objectifsRestants--;
+						}
+					}
+				}
 			}
 			window->display();
 		}
@@ -245,10 +258,5 @@ void deplacerCaisse(int* premiereCase, int* secondeCase) {
 			(*secondeCase) = CAISSE;
 		}
 
-		if (*premiereCase == CAISSE_OK) {
-			(*premiereCase) = OBJECTIF;
-		} else {
-			(*premiereCase) = VIDE;
-		}
 	}
 }
