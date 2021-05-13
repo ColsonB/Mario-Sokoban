@@ -6,17 +6,18 @@
 
 #include "constantes.h"
 #include "fichier.h"
+#include "jeu.h"
 
 
 void jouer(sf::RenderWindow* window) {
 
 	using namespace std;
 
-	sf::Sprite vide, mur, caisse, caisseOk, objectif, marioHaut, marioBas, marioGauche, marioDroite;
-	sf::Sprite* allAsset[6] = { &vide, &mur, &caisse, &caisseOk, &objectif };
+	sf::Sprite vide, mur, caisse, objectif, caisseOk, mario;
+	sf::Sprite* allAsset[6] = { &vide, &mur, &caisse, &objectif, &caisseOk, &mario };
 	sf::Vector2i Position, PositionJoueur;
 
-	int continuer = 1, objectifsRestants = 0, i = 0, j = 0;
+	int continuer = 1, objectifsRestants = 1, direction = BAS, i = 0, j = 0;
 	int carte[NB_BLOCS_LARGEUR][NB_BLOCS_HAUTEUR] = { 0 };
 
 	// Chargement des textures des objets
@@ -40,21 +41,11 @@ void jouer(sf::RenderWindow* window) {
 	textureObjectif.loadFromFile("src/img/objectif.png");
 	objectif.setTexture(textureObjectif);
 
-	sf::Texture textureMarioHaut;
-	textureMarioHaut.loadFromFile("src/img/mario_haut.png");
-	marioHaut.setTexture(textureMarioHaut);
-
-	sf::Texture textureMarioBas;
-	textureMarioBas.loadFromFile("src/img/mario_bas.png");
-	marioBas.setTexture(textureMarioBas);
-
-	sf::Texture textureMarioGauche;
-	textureMarioGauche.loadFromFile("src/img/mario_gauche.png");
-	marioGauche.setTexture(textureMarioGauche);
-
-	sf::Texture textureMarioDroite;
-	textureMarioDroite.loadFromFile("src/img/mario_droite.png");
-	marioDroite.setTexture(textureMarioDroite);
+	sf::Texture textureMario[5];
+	textureMario[HAUT].loadFromFile("src/img/mario_haut.png");
+	textureMario[BAS].loadFromFile("src/img/mario_bas.png");
+	textureMario[GAUCHE].loadFromFile("src/img/mario_gauche.png");
+	textureMario[DROITE].loadFromFile("src/img/mario_droite.png");
 
 	// Chargement du niveau
 	chargerNiveau(carte);
@@ -65,13 +56,13 @@ void jouer(sf::RenderWindow* window) {
 			if (carte[i][j] == MARIO){ // Si Mario se trouve à cette Position
 				PositionJoueur.x = i;
 				PositionJoueur.y = j;
-				//carte[i][j] = VIDE;
 			}
 		}
 	}
 
+
 	// On fait tourner le programme jusqu'à ce que la fenêtre soit fermée
-	while (window->isOpen()) {
+	while (continuer == 1) {
 		// On inspecte tous les évènements de la fenêtre qui ont été émis depuis la précédente itération
 		sf::Event event;
 		while (window->pollEvent(event)) {
@@ -80,28 +71,33 @@ void jouer(sf::RenderWindow* window) {
 			}
 			if (event.type == sf::Event::KeyPressed) {
 				if (event.key.code == sf::Keyboard::Escape) {
-					window->close();
+					continuer = 0;
 				}
 
 				if (event.key.code == sf::Keyboard::Up) {
-					textureMarioHaut;
-					//deplacerJoueur(carte, &PositionJoueur, HAUT);
+					deplacerJoueur(carte, &PositionJoueur, HAUT);
+					direction = HAUT;
+					carte[PositionJoueur.x][PositionJoueur.y + 1] = VIDE;
 				}
 
 				if (event.key.code == sf::Keyboard::Down) {
-					textureMarioBas;
-					//deplacerJoueur(carte, &PositionJoueur, BAS);
-				}
-
-				if (event.key.code == sf::Keyboard::Right) {
-					textureMarioDroite;
-					//deplacerJoueur(carte, &PositionJoueur, DROITE);
+					deplacerJoueur(carte, &PositionJoueur, BAS);
+					direction = BAS;
+					carte[PositionJoueur.x][PositionJoueur.y - 1] = VIDE;
 				}
 
 				if (event.key.code == sf::Keyboard::Left) {
-					textureMarioGauche;
-					//deplacerJoueur(carte, &PositionJoueur, GAUCHE);
+					deplacerJoueur(carte, &PositionJoueur, GAUCHE);
+					direction = GAUCHE;
+					carte[PositionJoueur.x + 1][PositionJoueur.y] = VIDE;
 				}
+
+				if (event.key.code == sf::Keyboard::Right) {
+					deplacerJoueur(carte, &PositionJoueur, DROITE);
+					direction = DROITE;
+					carte[PositionJoueur.x - 1][PositionJoueur.y] = VIDE;
+				}
+				carte[PositionJoueur.x][PositionJoueur.y] = MARIO;
 			}
 
 			/* Affichage du niveau */
@@ -110,73 +106,149 @@ void jouer(sf::RenderWindow* window) {
 				for (int colonne = 0; colonne < NB_BLOCS_HAUTEUR; colonne++) {
 					Position.top = colonne * TAILLE_BLOC;
 					Position.left = ligne * TAILLE_BLOC;
-					Position.width = TAILLE_BLOC;
-					Position.height = TAILLE_BLOC;
 					sf::Sprite* asset = allAsset[carte[ligne][colonne]];
 					asset->setPosition(Position.left, Position.top);
 					window->draw(*asset);
 				}
-			}			
+			}
+			mario.setTexture(textureMario[direction]);
+			
+			// Si on n'a trouvé aucun objectif sur la carte, c'est qu'on a gagné
+			if (objectifsRestants == 0) {
+				sf::Font font;
+				font.loadFromFile("src/font/Ketchum.otf");
+				sf::Text text;
+				text.setFont(font);
+				text.setString("Victoire");
+				window->draw(text);
+			}
 			window->display();
 		}
 		window->clear(sf::Color::Black);
-		/* Si on n'a trouvé aucun objectif sur la carte, c'est qu'on a gagné
-		if (objectifsRestants == 0) {
-			sf::Text text;
-			text.setString("Victoire");
-			window->draw(text);
-			window->display();
-		}*/
 	}
 }
 
-	/*void deplacerJoueur(int carte[][NB_BLOCS_HAUTEUR], sf::Vector2i * pos, int direction)
-	{
-		switch (direction)
-		{
-			if (pos->y - 1 < 0) // Si le joueur dépasse l'écran, on arrête
-				break;
+void deplacerJoueur(int carte[][NB_BLOCS_HAUTEUR], sf::Vector2i* PositionJoueur, int direction) {
+	if (direction == HAUT) {
+		if (carte[PositionJoueur->x][PositionJoueur->y - 1] != MUR &&
+			carte[PositionJoueur->x][PositionJoueur->y - 1] != OBJECTIF &&
+			carte[PositionJoueur->x][PositionJoueur->y - 1] != CAISSE_OK &&
+			PositionJoueur->x - 1 > 0) {
 
-			if (carte[pos->x][pos->y - 1] == MUR) // S'il y a un mur, on arrête
-				break;
+			if ((carte[PositionJoueur->x][PositionJoueur->y - 1] == CAISSE) &&
+				(carte[PositionJoueur->x][PositionJoueur->y - 2] != MUR &&
+				carte[PositionJoueur->x][PositionJoueur->y - 2] != CAISSE &&
+				carte[PositionJoueur->x][PositionJoueur->y - 2] != CAISSE_OK &&
+				PositionJoueur->x - 2 > 0)) {
 
-			// Si on veut pousser une caisse, il faut vérifier qu'il n'y a pas de mur derrière (ou une autre caisse, ou la limite du monde)
-			if ((carte[pos->x][pos->y - 1] == CAISSE || carte[pos->x][pos->y - 1] == CAISSE_OK) &&
-				(pos->y - 2 < 0 || carte[pos->x][pos->y - 2] == MUR ||
-					carte[pos->x][pos->y - 2] == CAISSE || carte[pos->x][pos->y - 2] == CAISSE_OK))
-				break;
+				deplacerCaisse(&carte[PositionJoueur->x][PositionJoueur->y - 1], &carte[PositionJoueur->x][PositionJoueur->y - 2]);
+			}
+
+			if ((carte[PositionJoueur->x][PositionJoueur->y - 1] == CAISSE ||
+				carte[PositionJoueur->x][PositionJoueur->y - 1] == CAISSE_OK) &&
+				(carte[PositionJoueur->x][PositionJoueur->y - 2] == MUR)) {
+
+				PositionJoueur->y;
+			}
+			else {
+				PositionJoueur->y--;
+			}
 		}
-
-		// Si on arrive là, c'est qu'on peut déplacer le joueur !
-		// On vérifie d'abord s'il y a une caisse à déplacer
-		deplacerCaisse(&carte[pos->x][pos->y - 1], &carte[pos->x][pos->y - 2]);
-
-		pos->y--;
-
 	}
+	if (direction == BAS) {
+		if (carte[PositionJoueur->x][PositionJoueur->y + 1] != MUR &&
+			carte[PositionJoueur->x][PositionJoueur->y + 1] != OBJECTIF &&
+			carte[PositionJoueur->x][PositionJoueur->y + 1] != CAISSE_OK &&
+			PositionJoueur->y + 1 < NB_BLOCS_HAUTEUR) {
 
-	void deplacerCaisse(int* premiereCase, int* secondeCase)
-	{
-		if (*premiereCase == CAISSE || *premiereCase == CAISSE_OK)
-		{
-			if (*secondeCase == OBJECTIF)
-			{
-				*secondeCase == CAISSE_OK;
+			if ((carte[PositionJoueur->x][PositionJoueur->y + 1] == CAISSE) &&
+				(carte[PositionJoueur->x][PositionJoueur->y + 2] != MUR &&
+				carte[PositionJoueur->x][PositionJoueur->y + 2] != CAISSE &&
+				carte[PositionJoueur->x][PositionJoueur->y + 2] != CAISSE_OK &&
+				PositionJoueur->y + 2 < NB_BLOCS_HAUTEUR)) {
+
+				deplacerCaisse(&carte[PositionJoueur->x][PositionJoueur->y + 1], &carte[PositionJoueur->x][PositionJoueur->y + 2]);
 			}
 
-			else
-			{
-				*secondeCase = CAISSE;
-			}
+			if ((carte[PositionJoueur->x][PositionJoueur->y + 1] == CAISSE ||
+				carte[PositionJoueur->x][PositionJoueur->y + 1] == CAISSE_OK) &&
+				(carte[PositionJoueur->x][PositionJoueur->y + 2] == MUR)) {
 
-			if (*premiereCase == CAISSE_OK)
-			{
-				*premiereCase = OBJECTIF;
+				PositionJoueur->y;
 			}
-
-			else
-			{
-				*premiereCase = VIDE;
+			else {
+				PositionJoueur->y++;
 			}
 		}
-	}*/
+	}
+	if (direction == GAUCHE) {
+		if (carte[PositionJoueur->x - 1][PositionJoueur->y] != MUR &&
+			carte[PositionJoueur->x - 1][PositionJoueur->y] != OBJECTIF &&
+			carte[PositionJoueur->x - 1][PositionJoueur->y] != CAISSE_OK &&
+			PositionJoueur->x - 1 > 0) {
+
+			if ((carte[PositionJoueur->x - 1][PositionJoueur->y] == CAISSE) &&
+				(carte[PositionJoueur->x - 2][PositionJoueur->y] != MUR &&
+				carte[PositionJoueur->x - 2][PositionJoueur->y] != CAISSE &&
+				carte[PositionJoueur->x - 2][PositionJoueur->y] != CAISSE_OK &&
+				PositionJoueur->x - 2 > 0)) {
+
+				deplacerCaisse(&carte[PositionJoueur->x - 1][PositionJoueur->y], &carte[PositionJoueur->x - 2][PositionJoueur->y]);
+			}
+
+			if ((carte[PositionJoueur->x - 1][PositionJoueur->y] == CAISSE ||
+				carte[PositionJoueur->x - 1][PositionJoueur->y] == CAISSE_OK) &&
+				(carte[PositionJoueur->x - 2][PositionJoueur->y] == MUR)) {
+
+				PositionJoueur->x;
+			}
+			else {
+				PositionJoueur->x--;
+			}
+		}
+	}
+	if (direction == DROITE) {
+		if (carte[PositionJoueur->x + 1][PositionJoueur->y] != MUR && 
+			carte[PositionJoueur->x + 1][PositionJoueur->y] != OBJECTIF && 
+			carte[PositionJoueur->x + 1][PositionJoueur->y] != CAISSE_OK &&
+			PositionJoueur->x + 1 < NB_BLOCS_LARGEUR) {
+
+			if ((carte[PositionJoueur->x + 1][PositionJoueur->y] == CAISSE) &&
+				(carte[PositionJoueur->x + 2][PositionJoueur->y] != MUR &&
+				carte[PositionJoueur->x + 2][PositionJoueur->y] != CAISSE &&
+				carte[PositionJoueur->x + 2][PositionJoueur->y] != CAISSE_OK &&
+				PositionJoueur->x + 2 < NB_BLOCS_LARGEUR)) {
+
+					deplacerCaisse(&carte[PositionJoueur->x + 1][PositionJoueur->y], &carte[PositionJoueur->x + 2][PositionJoueur->y]);
+			}
+
+			if ((carte[PositionJoueur->x + 1][PositionJoueur->y] == CAISSE ||
+				carte[PositionJoueur->x + 1][PositionJoueur->y] == CAISSE_OK) &&
+				(carte[PositionJoueur->x + 2][PositionJoueur->y] == MUR)) {
+
+				PositionJoueur->x;
+			}
+			else {
+				PositionJoueur->x++;
+			}
+		}
+	}
+}
+
+
+void deplacerCaisse(int* premiereCase, int* secondeCase) {
+	if (*premiereCase == CAISSE) {
+
+		if (*secondeCase == OBJECTIF) {
+			(*secondeCase) = CAISSE_OK;
+		} else {
+			(*secondeCase) = CAISSE;
+		}
+
+		if (*premiereCase == CAISSE_OK) {
+			(*premiereCase) = OBJECTIF;
+		} else {
+			(*premiereCase) = VIDE;
+		}
+	}
+}

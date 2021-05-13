@@ -32,6 +32,9 @@ int chargerNiveau(int niveau[][NB_BLOCS_HAUTEUR]){
                     case '4':
                         niveau[j][i] = 4;
                         break;
+                    case '5':
+                        niveau[j][i] = 5;
+                        break;
                 }
             }
         }

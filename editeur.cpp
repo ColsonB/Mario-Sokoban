@@ -9,11 +9,11 @@
 
 void editeur(sf::RenderWindow* window) {
 
-    sf::Sprite vide, mur, caisse, caisseOk, objectif, mario;
-    sf::Sprite *allAsset[6] = { &vide, &mur, &caisse, &caisseOk, &objectif, &mario };
+    sf::Sprite vide, mur, caisse, objectif, caisseOk, mario;
+    sf::Sprite *allAsset[6] = { &vide, &mur, &caisse, &objectif, &caisseOk, &mario };
 
     int objetSelect = VIDE;
-    int i = 0, j = 0;
+    int continuer = 1, i = 0, j = 0;
     int carte[NB_BLOCS_LARGEUR][NB_BLOCS_HAUTEUR] = { 0 };
 
     // Chargement des textures des objets
@@ -29,13 +29,13 @@ void editeur(sf::RenderWindow* window) {
     textureCaisse.loadFromFile("src/img/caisse.png");
     caisse.setTexture(textureCaisse);
 
-    sf::Texture textureCaisseOk;
-    textureCaisseOk.loadFromFile("src/img/caisse_ok.png");
-    caisseOk.setTexture(textureCaisseOk);
-
     sf::Texture textureObjectif;
     textureObjectif.loadFromFile("src/img/objectif.png");
     objectif.setTexture(textureObjectif);
+
+    sf::Texture textureCaisseOk;
+    textureCaisseOk.loadFromFile("src/img/caisse_ok.png");
+    caisseOk.setTexture(textureCaisseOk);
 
     sf::Texture textureMario;
     textureMario.loadFromFile("src/img/mario_bas.png");
@@ -44,7 +44,7 @@ void editeur(sf::RenderWindow* window) {
     chargerNiveau(carte);
 
     // On fait tourner le programme jusqu'à ce que la fenêtre soit fermée
-    while (window->isOpen()) {
+    while (continuer == 1) {
         // On inspecte tous les évènements de la fenêtre qui ont été émis depuis la précédente itération
         sf::Event event;
         while (window->pollEvent(event)) {
@@ -53,7 +53,7 @@ void editeur(sf::RenderWindow* window) {
             }
             if (event.type == sf::Event::KeyPressed) {
                 if (event.key.code == sf::Keyboard::Escape) {
-                    window->close();
+                    continuer = 0;
                 }
                 //Changement objet
                 if (event.key.code == sf::Keyboard::Num1) {
@@ -63,10 +63,10 @@ void editeur(sf::RenderWindow* window) {
                     objetSelect = CAISSE;
                 }
                 if (event.key.code == sf::Keyboard::Num3) {
-                    objetSelect = CAISSE_OK;
+                    objetSelect = OBJECTIF;
                 }
                 if (event.key.code == sf::Keyboard::Num4) {
-                    objetSelect = OBJECTIF;
+                    objetSelect = CAISSE_OK;
                 }
                 if (event.key.code == sf::Keyboard::Num5) {
                     objetSelect = MARIO;

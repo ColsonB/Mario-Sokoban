@@ -1,5 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <stdlib.h>
 #include <stdio.h>
 #include <iostream>
@@ -13,6 +14,12 @@ int main(int argc, char **argv) {
 	using namespace std;
 
 	sf::RenderWindow window(sf::VideoMode(LARGEUR_FENETRE, HAUTEUR_FENETRE, 32), "XenceV Sokoban");
+
+	sf::Music buffer;
+	if (!buffer.openFromFile("src/audio/Pour_Bitentronc.ogg")) {
+		return -1;
+	}
+	buffer.play();
 
 	sf::Texture texture;
 	if (!texture.loadFromFile("src/img/caisse.png")) // permet de charger la texture
