@@ -6,8 +6,7 @@
 #include <iostream>
 
 #include "constantes.h"
-#include "jeu.h"
-#include "editeur.h"
+#include "selectionlvl.h"
 #include "fichier.h"
 
 int main(int argc, char **argv) {
@@ -19,7 +18,7 @@ int main(int argc, char **argv) {
 	if (!buffer.openFromFile("src/audio/Pour_Bitentronc.ogg")) {
 		return -1;
 	}
-	buffer.play();
+	//buffer.play();
 
 	sf::Texture texture;
 	if (!texture.loadFromFile("src/img/caisse.png")) // permet de charger la texture
@@ -51,11 +50,14 @@ int main(int argc, char **argv) {
 				if (event.key.code == sf::Keyboard::Escape) {
 					window.close();
 				}
-				if (event.key.code == sf::Keyboard::Num1) {
-					jouer(&window);
+				if (event.key.code == sf::Keyboard::Num1 || event.key.code == sf::Keyboard::Numpad1) {
+					selectionJeu(&window);
 				}
-				if (event.key.code == sf::Keyboard::Num2) {
-					editeur(&window);
+				if (event.key.code == sf::Keyboard::Num2 || event.key.code == sf::Keyboard::Numpad2) {
+					selectionEdition(&window);
+				}
+				if (event.key.code == sf::Keyboard::Num3 || event.key.code == sf::Keyboard::Numpad3) {
+					regle(&window);
 				}
 			}
 		}

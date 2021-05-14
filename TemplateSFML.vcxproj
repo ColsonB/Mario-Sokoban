@@ -134,12 +134,14 @@
     <ClCompile Include="jeu.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="fichier.cpp" />
+    <ClCompile Include="selectionlvl.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="constantes.h" />
     <ClInclude Include="editeur.h" />
     <ClInclude Include="fichier.h" />
     <ClInclude Include="jeu.h" />
+    <ClInclude Include="selectionlvl.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="niveau.lvl" />

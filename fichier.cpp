@@ -2,14 +2,20 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <iostream>
+#include <string>
 #include "constantes.h"
 
-int chargerNiveau(int niveau[][NB_BLOCS_HAUTEUR]){
+using namespace std;
+
+int chargerNiveau(int niveau[][NB_BLOCS_HAUTEUR], int lvl){
 	FILE* fichier = NULL;
 	char ligneFichier[NB_BLOCS_LARGEUR * NB_BLOCS_HAUTEUR + 1] = { 0 };
 	int i = 0, j = 0;
+    std::string path = "src/stage/niveau";
+    path += std::to_string(lvl);
+    path += ".lvl";
 
-	fichier = fopen("niveau.lvl", "r");
+    fichier = fopen(path.c_str(), "r");
 	if (fichier == NULL) {
 		return 0;
 	}else{
@@ -43,11 +49,14 @@ int chargerNiveau(int niveau[][NB_BLOCS_HAUTEUR]){
     return 1;
 }
 
-int sauvegarderNiveau(int niveau[][NB_BLOCS_HAUTEUR]){
+int sauvegarderNiveau(int niveau[][NB_BLOCS_HAUTEUR], int lvl){
     FILE* fichier = NULL;
     int i = 0, j = 0;
+    std::string path = "src/stage/niveau";
+    path += std::to_string(lvl);
+    path += ".lvl";
 
-    fichier = fopen("niveau.lvl", "w");
+    fichier = fopen(path.c_str(), "w");
     if (fichier == NULL)
         return 0;
 

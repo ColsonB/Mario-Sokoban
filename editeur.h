@@ -5,4 +5,4 @@
 #include <iostream>
 #include "constantes.h"
 
-void editeur(sf::RenderWindow* window);
+void editeur(sf::RenderWindow* window, int lvl);

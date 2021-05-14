@@ -9,7 +9,7 @@
 #include "jeu.h"
 
 
-void jouer(sf::RenderWindow* window) {
+void jouer(sf::RenderWindow* window, int lvl) {
 
 	using namespace std;
 
@@ -19,6 +19,10 @@ void jouer(sf::RenderWindow* window) {
 
 	int continuer = 1, objectifsRestants = NB_BLOCS_LARGEUR * NB_BLOCS_HAUTEUR, direction = BAS, i = 0, j = 0;
 	int carte[NB_BLOCS_LARGEUR][NB_BLOCS_HAUTEUR] = { 0 };
+
+	// Chargement de la police d'écriture
+	sf::Font font;
+	font.loadFromFile("src/font/Ketchum.otf");
 
 	// Chargement des textures des objets
 	sf::Texture textureVide;
@@ -48,7 +52,7 @@ void jouer(sf::RenderWindow* window) {
 	textureMario[DROITE].loadFromFile("src/img/mario_droite.png");
 
 	// Chargement du niveau
-	chargerNiveau(carte);
+	chargerNiveau(carte, lvl);
 
 	// Recherche de la Position de Mario au départ
 	for (i = 0; i < NB_BLOCS_LARGEUR; i++){
@@ -74,29 +78,34 @@ void jouer(sf::RenderWindow* window) {
 					continuer = 0;
 				}
 
-				if (event.key.code == sf::Keyboard::Up) {
+				if (event.key.code == sf::Keyboard::Backspace) {
+					jouer(window, lvl);
+				}
+
+				if (event.key.code == sf::Keyboard::Up || event.key.code == sf::Keyboard::Z) {
 					deplacerJoueur(carte, &PositionJoueur, HAUT);
 					direction = HAUT;
 					carte[PositionJoueur.x][PositionJoueur.y + 1] = VIDE;
 				}
 
-				if (event.key.code == sf::Keyboard::Down) {
+				if (event.key.code == sf::Keyboard::Down || event.key.code == sf::Keyboard::S) {
 					deplacerJoueur(carte, &PositionJoueur, BAS);
 					direction = BAS;
 					carte[PositionJoueur.x][PositionJoueur.y - 1] = VIDE;
 				}
 
-				if (event.key.code == sf::Keyboard::Left) {
+				if (event.key.code == sf::Keyboard::Left || event.key.code == sf::Keyboard::Q) {
 					deplacerJoueur(carte, &PositionJoueur, GAUCHE);
 					direction = GAUCHE;
 					carte[PositionJoueur.x + 1][PositionJoueur.y] = VIDE;
 				}
 
-				if (event.key.code == sf::Keyboard::Right) {
+				if (event.key.code == sf::Keyboard::Right || event.key.code == sf::Keyboard::D) {
 					deplacerJoueur(carte, &PositionJoueur, DROITE);
 					direction = DROITE;
 					carte[PositionJoueur.x - 1][PositionJoueur.y] = VIDE;
 				}
+				
 				carte[PositionJoueur.x][PositionJoueur.y] = MARIO;
 			}
 
@@ -113,18 +122,34 @@ void jouer(sf::RenderWindow* window) {
 			}
 			mario.setTexture(textureMario[direction]);
 			
+			// Affichage du numéro du niveau
+			sf::Text niveau;
+			niveau.setFont(font);
+			niveau.setString("Niveau " + std::to_string(lvl));
+			niveau.setPosition(
+				(LARGEUR_FENETRE_JEU - niveau.getLocalBounds().width) / 2,
+				(HAUTEUR_FENETRE_JEU + niveau.getLocalBounds().height)
+			);
+			window->draw(niveau);
+
 			// S'il ne reste plus d'objectif on gagne la partie
 			if (objectifsRestants == 0) {
-				sf::Font font;
-				font.loadFromFile("src/font/Ketchum.otf");
 				sf::Text victoire;
 				victoire.setFont(font);
 				victoire.setString("Victoire");
 				victoire.setPosition(
-					(LARGEUR_FENETRE - victoire.getLocalBounds().width) / 2,
-					(HAUTEUR_FENETRE - victoire.getLocalBounds().height) / 2
+					(LARGEUR_FENETRE_JEU - victoire.getLocalBounds().width) / 2,
+					(HAUTEUR_FENETRE_JEU - victoire.getLocalBounds().height) / 2
 				);
 				window->draw(victoire);
+				if (event.key.code == sf::Keyboard::Enter) {
+					if (lvl < 5) {
+						lvl++;
+						jouer(window, lvl);
+					} else {
+						continuer = 0;
+					}
+				}
 			} else {
 				objectifsRestants = NB_BLOCS_LARGEUR * NB_BLOCS_HAUTEUR;
 				for (i = 0; i < NB_BLOCS_LARGEUR; i++) {
