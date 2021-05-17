@@ -8,9 +8,12 @@
 using namespace std;
 
 int chargerNiveau(int niveau[][NB_BLOCS_HAUTEUR], int lvl){
+
 	FILE* fichier = NULL;
 	char ligneFichier[NB_BLOCS_LARGEUR * NB_BLOCS_HAUTEUR + 1] = { 0 };
 	int i = 0, j = 0;
+
+    // Chemin de fichier de niveau
     std::string path = "src/stage/niveau";
     path += std::to_string(lvl);
     path += ".lvl";
@@ -50,8 +53,11 @@ int chargerNiveau(int niveau[][NB_BLOCS_HAUTEUR], int lvl){
 }
 
 int sauvegarderNiveau(int niveau[][NB_BLOCS_HAUTEUR], int lvl){
+
     FILE* fichier = NULL;
     int i = 0, j = 0;
+
+    // Chemin de fichier de niveau
     std::string path = "src/stage/niveau";
     path += std::to_string(lvl);
     path += ".lvl";

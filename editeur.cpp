@@ -22,51 +22,41 @@ void editeur(sf::RenderWindow* window, int lvl) {
     font.loadFromFile("src/font/Ketchum.otf");
 
     // Chargement des sprites
-    sf::Texture textureVide;
+    sf::Texture textureVide, textureChoixVide, textureMur, textureChoixMur, textureCaisse, textureChoixCaisse, textureObjectif, textureChoixObjectif, textureCaisseOk, textureChoixCaisseOK, textureMario, textureChoixMario;
+    
     textureVide.loadFromFile("src/img/vide.png");
     vide.setTexture(textureVide);
 
-    sf::Texture textureChoixVide;
     textureChoixVide.loadFromFile("src/img/choix_vide.png");
     choixVide.setTexture(textureChoixVide);
 
-    sf::Texture textureMur;
     textureMur.loadFromFile("src/img/mur.png");
     mur.setTexture(textureMur);
 
-    sf::Texture textureChoixMur;
     textureChoixMur.loadFromFile("src/img/choix_mur.png");
     choixMur.setTexture(textureChoixMur);
 
-    sf::Texture textureCaisse;
     textureCaisse.loadFromFile("src/img/caisse.png");
     caisse.setTexture(textureCaisse);
 
-    sf::Texture textureChoixCaisse;
     textureChoixCaisse.loadFromFile("src/img/choix_caisse.png");
     choixCaisse.setTexture(textureChoixCaisse);
 
-    sf::Texture textureObjectif;
     textureObjectif.loadFromFile("src/img/objectif.png");
     objectif.setTexture(textureObjectif);
 
-    sf::Texture textureChoixObjectif;
     textureChoixObjectif.loadFromFile("src/img/choix_objectif.png");
     choixObjectif.setTexture(textureChoixObjectif);
 
-    sf::Texture textureCaisseOk;
     textureCaisseOk.loadFromFile("src/img/caisse_ok.png");
     caisseOk.setTexture(textureCaisseOk);
 
-    sf::Texture textureChoixCaisseOK;
     textureChoixCaisseOK.loadFromFile("src/img/choix_caisse_ok.png");
     choixCaisseOk.setTexture(textureChoixCaisseOK);
 
-    sf::Texture textureMario;
     textureMario.loadFromFile("src/img/mario_bas.png");
     mario.setTexture(textureMario);
 
-    sf::Texture textureChoixMario;
     textureChoixMario.loadFromFile("src/img/mario.png");
     choixMario.setTexture(textureChoixMario);
 

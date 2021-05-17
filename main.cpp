@@ -16,9 +16,9 @@ int main(int argc, char **argv) {
 
 	sf::Music buffer;
 	if (!buffer.openFromFile("src/audio/Pour_Bitentronc.ogg")) {
-		return -1;
+		cout << "La musique n'a pas chargée";
 	}
-	//buffer.play();
+	buffer.play();
 
 	sf::Texture texture;
 	if (!texture.loadFromFile("src/img/caisse.png")) // permet de charger la texture
@@ -51,20 +51,22 @@ int main(int argc, char **argv) {
 					window.close();
 				}
 				if (event.key.code == sf::Keyboard::Num1 || event.key.code == sf::Keyboard::Numpad1) {
+					buffer.stop();
 					selectionJeu(&window);
 				}
 				if (event.key.code == sf::Keyboard::Num2 || event.key.code == sf::Keyboard::Numpad2) {
+					buffer.stop();
 					selectionEdition(&window);
 				}
 				if (event.key.code == sf::Keyboard::Num3 || event.key.code == sf::Keyboard::Numpad3) {
+					buffer.stop();
 					regle(&window);
 				}
 			}
 		}
+
 		window.clear(sf::Color::Black);
-
-		window.draw(sprite); // on dessine le sprite
-
+		window.draw(sprite);
 		window.display();
 	}
 		return 0;
